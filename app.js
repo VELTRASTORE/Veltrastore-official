@@ -16,14 +16,23 @@ const db = getFirestore(app);
 let dataProduk = {};
 let dataLogo = {};
 
-// Menjalankan kode segera setelah kerangka web dimuat
 document.addEventListener('DOMContentLoaded', () => {
     
     // ==========================================
-    // 1. JALANKAN ANIMASI & TAMPILAN LEBIH DULU
+    // 1. PERBAIKAN BUG LAYAR GELAP (FORCE SHOW)
     // ==========================================
-    
-    // Fitur Hamburger Menu (HP)
+    // Memaksa semua teks dan kotak yang punya efek animasi untuk langsung muncul!
+    const hiddenElements = document.querySelectorAll('.scroll-reveal, .fade-in, .fade-up');
+    hiddenElements.forEach(el => {
+        el.style.opacity = "1";
+        el.style.transform = "none";
+        el.style.visibility = "visible";
+        el.classList.add('appear', 'visible', 'active');
+    });
+
+    // ==========================================
+    // 2. FITUR BAWAAN WEBSITE
+    // ==========================================
     const hamburger = document.getElementById('hamburgerMenu');
     const navDropdown = document.getElementById('navDropdown');
     if(hamburger && navDropdown) {
@@ -40,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Fitur Buka Tutup FAQ
     const faqItems = document.querySelectorAll('.faq-item');
     if(faqItems.length > 0) {
         faqItems.forEach(item => {
@@ -54,20 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 🔥 FITUR ANIMASI MUNCUL (Ini yang tadi tertahan)
-    const revealElements = document.querySelectorAll('.scroll-reveal');
-    if(revealElements.length > 0) {
-        const observerOptions = { root: null, threshold: 0.1, rootMargin: "0px 0px 0px 0px" };
-        const scrollObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) { entry.target.classList.add('appear'); } 
-                else { entry.target.classList.remove('appear'); }
-            });
-        }, observerOptions);
-        revealElements.forEach(element => scrollObserver.observe(element));
-    }
-
-    // Fitur Pencarian Produk
     const searchInput = document.getElementById('searchInput');
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
@@ -81,14 +75,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Fitur Modal Pop-up Checkout
+    // ==========================================
+    // 3. LOGIKA POP-UP CHECKOUT
+    // ==========================================
     const orderModal = document.getElementById('orderModal');
     const closeModal = document.getElementById('closeModal');
     const variantList = document.getElementById('variantList');
     const modalProductName = document.getElementById('modalProductName');
     const btnCheckout = document.getElementById('btnCheckout');
 
-    // Mendeteksi tombol "Pilih Paket" yang dicetak dari Database
     document.body.addEventListener('click', (e) => {
         if(e.target.classList.contains('btn-pilih')) {
             if(!orderModal) return;
@@ -114,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     variantList.innerHTML += html;
                 });
             } else {
-                variantList.innerHTML = `<p style="color:#ff2a75; font-size:0.9rem; text-align:center;">Varian sedang diupdate, cek lagi nanti ya!</p>`;
+                variantList.innerHTML = `<p style="color:#ff2a75; font-size:0.9rem; text-align:center;">Paket belum tersedia, cek lagi nanti!</p>`;
             }
             orderModal.classList.add('show');
         }
@@ -143,14 +138,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-
     // ==========================================
-    // 2. AMBIL DATA DARI DATABASE (DI BELAKANG LAYAR)
+    // 4. MENGAMBIL DATA DATABASE
     // ==========================================
     fetchDatabase();
 });
 
-// Fungsi memanggil database tanpa menahan animasi web
 async function fetchDatabase() {
     try {
         const docRef = doc(db, "toko", "katalog");
@@ -159,7 +152,6 @@ async function fetchDatabase() {
         if (snap.exists()) {
             dataProduk = snap.data().dataProduk || {};
             dataLogo = snap.data().dataLogo || {};
-            console.log("✅ Database berhasil terhubung!");
 
             const katalogContainer = document.getElementById('katalogProduk');
             if(katalogContainer) {
@@ -186,6 +178,6 @@ async function fetchDatabase() {
             }
         }
     } catch (error) {
-        console.error("Gagal mengambil data:", error);
+        console.log("Gagal memuat database:", error);
     }
 }
