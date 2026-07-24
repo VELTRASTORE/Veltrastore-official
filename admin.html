@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin - Veltrastoreid</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #1a0004; color: white; font-family: 'Plus Jakarta Sans', sans-serif; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; }
+        h2 { color: #ff2a75; text-align: center; }
+        .card { background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 15px; border: 1px solid rgba(255, 42, 117, 0.3); margin-bottom: 20px; }
+        button { background: #ff2a75; color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; font-weight: bold; font-size: 1rem; cursor: pointer; margin-top: 10px; }
+        button:hover { background: #d61f5f; }
+        
+        /* Warna Tombol Baru */
+        .btn-success { background: #2ed573; color: #000; }
+        .btn-success:hover { background: #26b360; }
+        .btn-danger { background: #ff4757; }
+        .btn-danger:hover { background: #ff2a3b; }
+        .btn-outline { background: transparent; border: 1px dashed #ff2a75; color: #ff2a75; }
+        .btn-small { width: auto; padding: 6px 12px; font-size: 0.8rem; margin: 0; border-radius: 5px;}
+
+        select, input { width: 100%; padding: 10px; margin-top: 5px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ff2a75; background: #000; color: white; box-sizing: border-box; }
+        .varian-box { background: rgba(0,0,0,0.5); padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 1px dashed #ff2a75; }
+        .varian-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        label { font-size: 0.85rem; color: #b3b3b3; font-weight: 600; }
+        .logo-preview { width: 60px; height: 60px; border-radius: 10px; object-fit: cover; display: block; margin: 0 auto 15px auto; border: 2px solid #ff2a75; background: #222; }
+        hr { border: 0; border-top: 1px solid rgba(255,42,117,0.3); margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>⚙️ Panel Admin Veltrastore</h2>
+
+        <!-- KOTAK 1: TAMBAH APLIKASI BARU -->
+        <div class="card" id="addCard">
+            <h3 style="color: #2ed573;">➕ Tambah Aplikasi Baru</h3>
+            <label>Nama Aplikasi:</label>
+            <input type="text" id="newAppName" placeholder="Contoh: Canva Pro">
+            <button id="btnAddApp" class="btn-success">Buat Aplikasi Baru</button>
+        </div>
+
+        <!-- KOTAK 2: EDIT & HAPUS APLIKASI -->
+        <div class="card" id="editCard">
+            <h3>Pilih Aplikasi Untuk Diedit</h3>
+            <select id="selectProduk"></select>
+
+            <div id="editorArea" style="display:none;">
+                <div style="background: rgba(255,42,117,0.1); padding: 15px; border-radius: 10px; border: 1px solid #ff2a75; margin-bottom: 20px;">
+                    <label>🖼️ Link Logo Aplikasi (URL dari Google):</label>
+                    <img id="previewLogo" class="logo-preview" src="https://via.placeholder.com/60" alt="Preview Logo">
+                    <input type="text" id="inputLogo" placeholder="Paste link gambar (https://...) di sini">
+                </div>
+
+                <div id="varianContainer"></div>
+                
+                <button id="btnAddVariant" class="btn-outline">+ Tambah Varian Baru</button>
+                <hr>
+                
+                <button id="btnSimpan">💾 SIMPAN PERUBAHAN KE DATABASE</button>
+                <p style="font-size: 0.8rem; text-align:center; margin-top:10px; color:#25d366;">*Jangan lupa klik simpan setelah mengedit varian/logo!</p>
+                
+                <hr>
+                <button id="btnHapusApp" class="btn-danger">🗑️ HAPUS APLIKASI INI DARI TOKO</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT DATABASE FIREBASE -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCZ9JmZRYU3i9_mrYsZPj7nr566wR7VQ78",
+            authDomain: "veltra-store-694e1.firebaseapp.com",
+            projectId: "veltra-store-694e1",
+            storageBucket: "veltra-store-694e1.firebasestorage.app",
+            messagingSenderId: "601493638172",
+            appId: "1:601493638172:web:12d9153c605d9b6e9863d9"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const docRef = doc(db, "toko", "katalog");
+
+        let currentData = {};
+        let currentLogo = {};
+
+        // 1. Load Data
+        async function loadData() {
+            try {
+                const snap = await getDoc(docRef);
+                if(snap.exists()) {
+                    currentData = snap.data().dataProduk || {};
+                    currentLogo = snap.data().dataLogo || {};
+                    renderSelect();
+                }
+            } catch (e) {
+                alert("Gagal memuat data dari database!");
+            }
+        }
+
+        // 2. Render Pilihan Dropdown
+        function renderSelect() {
+            const select = document.getElementById('selectProduk');
+            const currentValue = select.value;
+            select.innerHTML = '<option value="">-- Silakan Pilih Aplikasi --</option>';
+            
+            Object.keys(currentData).sort().forEach(key => {
+                select.innerHTML += `<option value="${key}">${key}</option>`;
+            });
+            
+            if(currentData[currentValue]) {
+                select.value = currentValue;
+            }
+        }
+
+        // 3. Simpan sementara data yang sedang diketik sebelum layar refresh
+        function syncInputs(key) {
+            if(!key || !currentData[key]) return;
+            currentLogo[key] = document.getElementById('inputLogo').value;
+            currentData[key].forEach((varian, index) => {
+                const inputNama = document.getElementById(`nama_${key}_${index}`);
+                const inputHarga = document.getElementById(`harga_${key}_${index}`);
+                if(inputNama && inputHarga) {
+                    varian.nama = inputNama.value;
+                    varian.harga = inputHarga.value;
+                }
+            });
+        }
+
+        // 4. Render Kartu Varian
+        function renderVariants(key) {
+            const container = document.getElementById('varianContainer');
+            container.innerHTML = '';
+            
+            currentData[key].forEach((varian, index) => {
+                container.innerHTML += `
+                    <div class="varian-box">
+                        <div class="varian-header">
+                            <label>Varian ke-${index + 1}:</label>
+                            <button class="btn-danger btn-small btn-hapus-varian" data-index="${index}">Hapus</button>
+                        </div>
+                        <input type="text" id="nama_${key}_${index}" value="${varian.nama}" placeholder="Nama Paket">
+                        <label>Harga (Misal: Rp 20.000):</label>
+                        <input type="text" id="harga_${key}_${index}" value="${varian.harga}" placeholder="Rp 0">
+                    </div>
+                `;
+            });
+        }
+
+        // --- EVENT LISTENERS ---
+
+        // Saat Dropdown Dipilih
+        document.getElementById('selectProduk').addEventListener('change', (e) => {
+            const key = e.target.value;
+            const editorArea = document.getElementById('editorArea');
+            const inputLogo = document.getElementById('inputLogo');
+            const previewLogo = document.getElementById('previewLogo');
+            
+            if(!key) {
+                editorArea.style.display = 'none';
+                return;
+            }
+
+            editorArea.style.display = 'block';
+            const logoUrl = currentLogo[key] || '';
+            inputLogo.value = logoUrl;
+            previewLogo.src = logoUrl ? logoUrl : 'https://via.placeholder.com/60';
+            
+            inputLogo.oninput = () => { previewLogo.src = inputLogo.value ? inputLogo.value : 'https://via.placeholder.com/60'; };
+            renderVariants(key);
+        });
+
+        // Tambah Aplikasi Baru
+        document.getElementById('btnAddApp').addEventListener('click', async () => {
+            const newName = document.getElementById('newAppName').value.trim();
+            if(!newName) return alert("Ketik nama aplikasi dulu!");
+            if(currentData[newName]) return alert("Aplikasi ini sudah ada di daftar!");
+
+            // Buat data bawaan untuk aplikasi baru
+            currentData[newName] = [{nama: "Paket 1 Bulan", harga: "Rp 0"}];
+            currentLogo[newName] = "";
+
+            await setDoc(docRef, { dataProduk: currentData, dataLogo: currentLogo });
+            alert(`Aplikasi ${newName} berhasil ditambahkan! Silakan edit harganya.`);
+            
+            document.getElementById('newAppName').value = '';
+            renderSelect();
+            document.getElementById('selectProduk').value = newName;
+            document.getElementById('selectProduk').dispatchEvent(new Event('change'));
+        });
+
+        // Hapus Aplikasi
+        document.getElementById('btnHapusApp').addEventListener('click', async () => {
+            const key = document.getElementById('selectProduk').value;
+            if(!key) return;
+            
+            if(confirm(`⚠️ PERINGATAN!\nYakin ingin MENGHAPUS ${key} beserta seluruh harganya?`)) {
+                delete currentData[key];
+                delete currentLogo[key];
+
+                await setDoc(docRef, { dataProduk: currentData, dataLogo: currentLogo });
+                alert(`✅ Aplikasi ${key} berhasil dihapus dari toko.`);
+                
+                document.getElementById('editorArea').style.display = 'none';
+                renderSelect();
+            }
+        });
+
+        // Tambah Varian Baru
+        document.getElementById('btnAddVariant').addEventListener('click', () => {
+            const key = document.getElementById('selectProduk').value;
+            syncInputs(key); 
+            currentData[key].push({nama: "Paket Baru", harga: "Rp 0"});
+            renderVariants(key);
+        });
+
+        // Hapus Varian (menggunakan delegasi event)
+        document.getElementById('varianContainer').addEventListener('click', (e) => {
+            if(e.target.classList.contains('btn-hapus-varian')) {
+                const index = e.target.getAttribute('data-index');
+                const key = document.getElementById('selectProduk').value;
+                syncInputs(key);
+                currentData[key].splice(index, 1);
+                renderVariants(key);
+            }
+        });
+
+        // Tombol Simpan Perubahan Utama
+        document.getElementById('btnSimpan').addEventListener('click', async () => {
+            const key = document.getElementById('selectProduk').value;
+            if(!key) return alert("Pilih aplikasi dulu!");
+
+            syncInputs(key);
+
+            try {
+                document.getElementById('btnSimpan').innerText = "⏳ Sedang Menyimpan...";
+                await setDoc(docRef, { dataProduk: currentData, dataLogo: currentLogo });
+                alert("✅ Semua Data Berhasil Disimpan ke Database!");
+                document.getElementById('btnSimpan').innerText = "💾 SIMPAN PERUBAHAN KE DATABASE";
+            } catch(e) {
+                alert("Gagal simpan: " + e.message);
+                document.getElementById('btnSimpan').innerText = "💾 SIMPAN PERUBAHAN KE DATABASE";
+            }
+        });
+
+        loadData();
+    </script>
+</body>
+</html>
