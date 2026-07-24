@@ -16,52 +16,58 @@ const db = getFirestore(app);
 let dataProduk = {};
 let dataLogo = {};
 
-document.addEventListener('DOMContentLoaded', async () => {
+// Menjalankan kode segera setelah kerangka web dimuat
+document.addEventListener('DOMContentLoaded', () => {
     
     // ==========================================
-    // 1. SINKRONISASI & PENCETAK OTOMATIS
+    // 1. JALANKAN ANIMASI & TAMPILAN LEBIH DULU
     // ==========================================
-    try {
-        const docRef = doc(db, "toko", "katalog");
-        const snap = await getDoc(docRef);
-        if (snap.exists()) {
-            dataProduk = snap.data().dataProduk || {};
-            dataLogo = snap.data().dataLogo || {};
-            console.log("✅ Database terhubung!");
-
-            // Cari area penampung di HTML
-            const katalogContainer = document.getElementById('katalogProduk');
-            
-            if(katalogContainer) {
-                katalogContainer.innerHTML = ''; // Hapus tulisan loading
-                
-                // Mulai mencetak kotak produk satu per satu
-                Object.keys(dataProduk).sort().forEach(namaApp => {
-                    const linkLogo = dataLogo[namaApp] || 'https://via.placeholder.com/150';
-                    
-                    const card = document.createElement('div');
-                    card.className = 'product-card'; 
-                    card.setAttribute('data-name', namaApp);
-                    
-                    // Desain kotak produk
-                    card.innerHTML = `
-                        <div style="background:rgba(255,255,255,0.05); border: 1px solid rgba(255,42,117,0.3); border-radius:15px; padding:15px; text-align:center; height:100%; display:flex; flex-direction:column; justify-content:space-between; box-shadow: 0 4px 10px rgba(0,0,0,0.5);">
-                            <img src="${linkLogo}" alt="${namaApp}" style="width:80px; height:80px; object-fit:cover; border-radius:15px; margin: 0 auto 15px auto; border: 1px solid #ff2a75;">
-                            <h3 style="font-size:1.1rem; color:#fff; font-weight:bold; margin-bottom:15px;">${namaApp}</h3>
-                            <button class="btn-pilih" data-product="${namaApp}" style="background:#ff2a75; color:#fff; border:none; padding:10px; border-radius:8px; font-weight:bold; cursor:pointer; width:100%;">Pilih Paket</button>
-                        </div>
-                    `;
-                    katalogContainer.appendChild(card);
-                });
+    
+    // Fitur Hamburger Menu (HP)
+    const hamburger = document.getElementById('hamburgerMenu');
+    const navDropdown = document.getElementById('navDropdown');
+    if(hamburger && navDropdown) {
+        hamburger.addEventListener('click', (e) => {
+            e.stopPropagation(); 
+            hamburger.classList.toggle('active');
+            navDropdown.classList.toggle('open');
+        });
+        document.addEventListener('click', (e) => {
+            if (!hamburger.contains(e.target) && !navDropdown.contains(e.target)) {
+                hamburger.classList.remove('active');
+                navDropdown.classList.remove('open');
             }
-        }
-    } catch (error) {
-        console.error("Gagal mengambil data:", error);
+        });
     }
 
-    // ==========================================
-    // 2. FITUR PENCARIAN (SEARCH)
-    // ==========================================
+    // Fitur Buka Tutup FAQ
+    const faqItems = document.querySelectorAll('.faq-item');
+    if(faqItems.length > 0) {
+        faqItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const currentActive = document.querySelector('.faq-item.active-faq');
+                if (currentActive && currentActive !== item) {
+                    currentActive.classList.remove('active-faq');
+                }
+                item.classList.toggle('active-faq');
+            });
+        });
+    }
+
+    // 🔥 FITUR ANIMASI MUNCUL (Ini yang tadi tertahan)
+    const revealElements = document.querySelectorAll('.scroll-reveal');
+    if(revealElements.length > 0) {
+        const observerOptions = { root: null, threshold: 0.1, rootMargin: "0px 0px 0px 0px" };
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) { entry.target.classList.add('appear'); } 
+                else { entry.target.classList.remove('appear'); }
+            });
+        }, observerOptions);
+        revealElements.forEach(element => scrollObserver.observe(element));
+    }
+
+    // Fitur Pencarian Produk
     const searchInput = document.getElementById('searchInput');
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
@@ -75,16 +81,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // ==========================================
-    // 3. LOGIKA POP-UP CHECKOUT 
-    // ==========================================
+    // Fitur Modal Pop-up Checkout
     const orderModal = document.getElementById('orderModal');
     const closeModal = document.getElementById('closeModal');
     const variantList = document.getElementById('variantList');
     const modalProductName = document.getElementById('modalProductName');
     const btnCheckout = document.getElementById('btnCheckout');
 
-    // Gunakan deteksi klik Global agar tombol yang baru dicetak bisa dipencet
+    // Mendeteksi tombol "Pilih Paket" yang dicetak dari Database
     document.body.addEventListener('click', (e) => {
         if(e.target.classList.contains('btn-pilih')) {
             if(!orderModal) return;
@@ -109,6 +113,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     `;
                     variantList.innerHTML += html;
                 });
+            } else {
+                variantList.innerHTML = `<p style="color:#ff2a75; font-size:0.9rem; text-align:center;">Varian sedang diupdate, cek lagi nanti ya!</p>`;
             }
             orderModal.classList.add('show');
         }
@@ -136,4 +142,50 @@ document.addEventListener('DOMContentLoaded', async () => {
             window.open(`https://wa.me/6285166497792?text=${pesan}`, '_blank');
         });
     }
+
+
+    // ==========================================
+    // 2. AMBIL DATA DARI DATABASE (DI BELAKANG LAYAR)
+    // ==========================================
+    fetchDatabase();
 });
+
+// Fungsi memanggil database tanpa menahan animasi web
+async function fetchDatabase() {
+    try {
+        const docRef = doc(db, "toko", "katalog");
+        const snap = await getDoc(docRef);
+        
+        if (snap.exists()) {
+            dataProduk = snap.data().dataProduk || {};
+            dataLogo = snap.data().dataLogo || {};
+            console.log("✅ Database berhasil terhubung!");
+
+            const katalogContainer = document.getElementById('katalogProduk');
+            if(katalogContainer) {
+                katalogContainer.innerHTML = ''; 
+                
+                Object.keys(dataProduk).sort().forEach(namaApp => {
+                    const linkLogo = dataLogo[namaApp] || 'https://via.placeholder.com/150';
+                    
+                    const card = document.createElement('div');
+                    card.className = 'product-card'; 
+                    card.setAttribute('data-name', namaApp);
+                    // Tambahkan animasi saat dicetak
+                    card.style.animation = "fadeInUp 0.5s ease forwards"; 
+                    
+                    card.innerHTML = `
+                        <div style="background:rgba(255,255,255,0.05); border: 1px solid rgba(255,42,117,0.3); border-radius:15px; padding:15px; text-align:center; height:100%; display:flex; flex-direction:column; justify-content:space-between; box-shadow: 0 4px 10px rgba(0,0,0,0.5);">
+                            <img src="${linkLogo}" alt="${namaApp}" style="width:80px; height:80px; object-fit:cover; border-radius:15px; margin: 0 auto 15px auto; border: 1px solid #ff2a75;">
+                            <h3 style="font-size:1.1rem; color:#fff; font-weight:bold; margin-bottom:15px;">${namaApp}</h3>
+                            <button class="btn-pilih" data-product="${namaApp}" style="background:#ff2a75; color:#fff; border:none; padding:10px; border-radius:8px; font-weight:bold; cursor:pointer; width:100%;">Pilih Paket</button>
+                        </div>
+                    `;
+                    katalogContainer.appendChild(card);
+                });
+            }
+        }
+    } catch (error) {
+        console.error("Gagal mengambil data:", error);
+    }
+}
