@@ -1,0 +1,587 @@
+/* RESET STANDAR & PENGUNCI LAYAR HP */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden; 
+    position: relative;
+    box-sizing: border-box;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+}
+
+* {
+    box-sizing: inherit;
+}
+
+body {
+    background: linear-gradient(to bottom, #000000 0%, #1a0004 50%, #2b0006 100%);
+    color: #ffffff;
+    min-height: 100vh;
+}
+
+/* NAVBAR */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 42, 117, 0.15);
+}
+
+.nav-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.logo {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-decoration: none;
+    text-transform: lowercase;
+}
+
+.logo span {
+    color: #ff2a75;
+}
+
+/* TOMBOL HAMBURGER */
+.hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.hamburger span {
+    display: block;
+    width: 100%;
+    height: 2.5px;
+    background-color: #ffffff;
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: translateY(6.5px) rotate(45deg);
+    background-color: #ff2a75;
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: translateY(-6.5px) rotate(-45deg);
+    background-color: #ff2a75;
+}
+
+/* MENU COMPACT */
+.nav-dropdown-compact {
+    position: absolute;
+    top: 55px; 
+    right: 16px;
+    background: rgba(20, 0, 5, 0.95);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 42, 117, 0.3);
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 150px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.nav-dropdown-compact.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.btn-compact {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: white;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.btn-compact svg { width: 16px; height: 16px; fill: currentColor; }
+.btn-compact.wa { background: #25d366; }
+.btn-compact.ig { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+
+/* KLIK EFEK */
+.click-target {
+    transition: transform 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.click-target:active {
+    transform: scale(0.95) !important;
+}
+
+/* HERO SECTION */
+.hero {
+    padding: 130px 20px 40px 20px;
+    text-align: center;
+    width: 100%;
+}
+
+.hero h1 {
+    font-size: 2.1rem;
+    line-height: 1.2;
+    margin-bottom: 20px;
+}
+
+.hero h1 span {
+    color: #ff2a75;
+    text-shadow: 0 0 20px rgba(255, 42, 117, 0.5);
+}
+
+.hero p {
+    color: #b3b3b3;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.btn-main {
+    display: inline-block;
+    background: linear-gradient(45deg, #ff2a75, #b3003b);
+    color: white;
+    padding: 14px 28px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    box-shadow: 0 0 20px rgba(255, 42, 117, 0.4);
+    animation: pulse 2s infinite;
+}
+
+/* ========================================================
+   REVISI CARD (GAMBAR TERKUNCI UKURANNYA KIRI-KANAN RAPI) 
+   ======================================================== */
+.features {
+    padding: 20px 16px 40px 16px;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 1.4rem;
+    margin-bottom: 35px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.features-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.feature-card {
+    background: rgba(25, 0, 5, 0.6); 
+    border: 1px solid rgba(255, 42, 117, 0.15);
+    border-radius: 20px;
+    padding: 16px;
+    display: flex;
+    flex-direction: row !important; /* Paksa posisi tetap kiri-kanan walau layar kecil */
+    align-items: center;
+    justify-content: flex-start;
+    gap: 16px; 
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    width: 100%;
+}
+
+/* Kunci ukuran gambar agar tidak membesar / memenuhi layar */
+.chibi-image {
+    width: 120px; 
+    min-width: 120px; /* Cegah mengecil */
+    flex-shrink: 0; /* Pastikan ruang gambar tidak direbut teks */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chibi-image img {
+    width: 100%;
+    height: auto;
+    max-height: 140px; /* Batasi maksimal tinggi gambar */
+    object-fit: contain; 
+}
+
+/* Teks mengisi sisa ruang di sebelah kanan */
+.card-text {
+    flex: 1;
+    text-align: left; 
+}
+
+.card-text h3 {
+    font-size: 1.15rem;
+    margin-bottom: 6px;
+    color: #ffffff;
+}
+
+.card-text p {
+    color: #b3b3b3;
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+/* TENTANG KAMI SECTION */
+.about-section {
+    padding: 40px 16px;
+    width: 100%;
+}
+
+.about-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 30px 20px;
+    border-radius: 16px;
+    text-align: center;
+}
+
+.about-card p {
+    color: #b3b3b3;
+    font-size: 0.88rem;
+    line-height: 1.7;
+}
+
+/* FAQ SECTION */
+.faq-section {
+    padding: 20px 16px 50px 16px;
+    width: 100%;
+}
+
+.faq-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.faq-item {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.faq-question {
+    padding: 18px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.faq-question .arrow {
+    font-size: 0.7rem;
+    color: #ff2a75;
+    transition: transform 0.3s ease;
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.faq-answer p {
+    padding: 0 20px 18px 20px;
+    color: #b3b3b3;
+    font-size: 0.88rem;
+    line-height: 1.5;
+}
+
+.faq-item.active-faq .faq-answer {
+    max-height: 200px;
+}
+
+.faq-item.active-faq .arrow {
+    transform: rotate(180deg);
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: #555555;
+    font-size: 0.8rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ANIMASI PULSE */
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 42, 117, 0.4); }
+    70% { box-shadow: 0 0 0 12px rgba(255, 42, 117, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 42, 117, 0); }
+}
+
+/* FADE IN HERO */
+.fade-in {
+    animation: fadeInUp 0.8s ease forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
+.delay-1 { animation-delay: 0.15s; }
+.delay-2 { animation-delay: 0.3s; }
+
+@keyframes fadeInUp {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* SISTEM REVEAL ANIMASI GESER */
+.scroll-reveal {
+    opacity: 0;
+    transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform, opacity;
+}
+
+.reveal-left { transform: translateX(-40px); }
+.reveal-right { transform: translateX(40px); }
+.reveal-bottom { transform: translateY(40px); }
+.reveal-top { transform: translateY(-40px); }
+
+.scroll-reveal.appear {
+    opacity: 1;
+    transform: translate(0, 0);
+}
+
+/* ========================================================
+   RESPONSIVITAS UNTUK HP DENGAN LAYAR SANGAT KECIL
+   ======================================================== */
+@media (max-width: 480px) {
+    .feature-card {
+        padding: 14px 12px;
+        gap: 12px; /* Rapatkan sedikit ruang antar foto dan teks */
+    }
+    
+    .chibi-image {
+        width: 100px; /* Foto sedikit dikecilkan di HP */
+        min-width: 100px;
+    }
+
+    .card-text h3 {
+        font-size: 1.05rem; /* Judul sedikit disesuaikan */
+    }
+    
+    .card-text p {
+        font-size: 0.8rem; /* Teks disesuaikan agar tidak sumpek */
+    }
+}
+/* ========================================================
+   CSS BARU KHUSUS HALAMAN PRODUK (PRODUK.HTML)
+   ======================================================== */
+
+.produk-page { padding-top: 80px; }
+
+/* HEADER KATALOG */
+.katalog-header { text-align: center; padding: 20px 16px 10px 16px; }
+.katalog-header h1 { font-size: 1.8rem; color: #ff2a75; text-transform: uppercase; letter-spacing: 1px; }
+.katalog-header p { color: #b3b3b3; font-size: 0.9rem; margin-top: 5px; }
+
+/* SEARCH BAR */
+.filter-section { padding: 16px; max-width: 800px; margin: 0 auto; }
+.search-box { 
+    background: rgba(255, 255, 255, 0.05); 
+    border: 1px solid rgba(255, 42, 117, 0.3);
+    border-radius: 30px; display: flex; align-items: center; 
+    padding: 10px 16px; margin-bottom: 15px; 
+    transition: box-shadow 0.3s;
+}
+.search-box:focus-within { box-shadow: 0 0 15px rgba(255, 42, 117, 0.4); }
+.search-icon { margin-right: 10px; font-size: 1rem; }
+.search-box input {
+    background: transparent; border: none; color: white;
+    width: 100%; outline: none; font-size: 0.95rem; font-family: inherit;
+}
+
+/* CATEGORY PILLS (GESER HORIZONTAL) */
+.category-pills {
+    display: flex; gap: 10px; overflow-x: auto; 
+    padding-bottom: 5px; 
+    -ms-overflow-style: none; scrollbar-width: none; 
+}
+.category-pills::-webkit-scrollbar { display: none; }
+.pill {
+    background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #b3b3b3; padding: 8px 16px; border-radius: 20px;
+    white-space: nowrap; font-size: 0.85rem; font-weight: 600; cursor: pointer;
+}
+.pill.active { background: #ff2a75; color: white; border-color: #ff2a75; }
+
+/* PRODUCT GRID (2 KOLOM RAPI) */
+.product-container { padding: 10px 16px 50px 16px; max-width: 800px; margin: 0 auto; }
+.product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+
+/* KARTU PRODUK */
+.product-card {
+    background: rgba(20, 0, 5, 0.6);
+    border: 1px solid rgba(255, 42, 117, 0.15);
+    border-radius: 16px; padding: 16px 12px;
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+.product-logo {
+    width: 60px; height: 60px; object-fit: contain;
+    margin-bottom: 12px; border-radius: 12px;
+}
+.product-card h3 { font-size: 1rem; margin-bottom: 8px; color: white; }
+.price { font-size: 0.85rem; font-weight: 700; color: #ff2a75; margin-bottom: 12px; }
+.btn-pilih {
+    background: rgba(255, 42, 117, 0.15); color: #ff2a75;
+    border: 1px solid #ff2a75; border-radius: 8px;
+    padding: 8px 12px; font-size: 0.8rem; font-weight: 600; width: 100%;
+}
+
+/* POP-UP MODAL CHECKOUT */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(5px);
+    z-index: 2000; display: flex; align-items: flex-end;
+    opacity: 0; visibility: hidden; transition: all 0.3s ease;
+}
+.modal-overlay.show { opacity: 1; visibility: visible; }
+.modal-content {
+    background: #1a0004; width: 100%; max-height: 85vh;
+    border-radius: 24px 24px 0 0; padding: 24px 20px;
+    border-top: 1px solid #ff2a75; overflow-y: auto;
+    transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.modal-overlay.show .modal-content { transform: translateY(0); }
+
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 15px; }
+.modal-header h3 { font-size: 1.2rem; color: #ff2a75; }
+.close-modal { font-size: 1.8rem; line-height: 1; cursor: pointer; color: #b3b3b3; }
+
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 10px; color: white; }
+
+/* VARIAN LIST (MODAL) */
+.variant-list { display: flex; flex-direction: column; gap: 10px; }
+.variant-card {
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 12px 16px; border-radius: 12px; cursor: pointer; transition: all 0.2s;
+}
+.variant-card:has(input:checked) { background: rgba(255, 42, 117, 0.1); border-color: #ff2a75; }
+.variant-card input { display: none; }
+.variant-name { font-size: 0.85rem; color: #b3b3b3; }
+.variant-price { font-size: 0.85rem; font-weight: 700; color: white; }
+.variant-card:has(input:checked) .variant-name, .variant-card:has(input:checked) .variant-price { color: #ff2a75; }
+
+/* PAYMENT LOGO (MODAL) */
+.payment-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.payment-card {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+    background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px; border-radius: 12px; cursor: pointer;
+}
+.payment-card img { width: 35px; height: 35px; object-fit: contain; border-radius: 6px; }
+.payment-card:has(input:checked) { background: rgba(255, 42, 117, 0.1); border-color: #ff2a75; }
+.payment-card input { display: none; }
+.pay-name { font-size: 0.75rem; color: #b3b3b3; font-weight: 600; }
+.payment-card:has(input:checked) .pay-name { color: #ff2a75; }
+
+.btn-checkout {
+    background: #ff2a75; color: white; width: 100%; border: none;
+    padding: 14px; border-radius: 12px; font-size: 1rem; font-weight: 700;
+    margin-top: 10px; box-shadow: 0 4px 15px rgba(255, 42, 117, 0.4);
+}
+/* KOTAK INFO CARA ORDER (DI DALAM MODAL) */
+.info-order-box {
+    background: rgba(255, 42, 117, 0.08);
+    border: 1px solid rgba(255, 42, 117, 0.25);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 20px;
+}
+.info-order-box h4 {
+    color: #ff2a75;
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.info-order-box ol {
+    margin-left: 18px;
+    color: #b3b3b3;
+    font-size: 0.85rem;
+    line-height: 1.6;
+}
+.info-order-box ol li b {
+    color: #ffffff;
+}
+/* =========================================
+   PERBAIKAN POSISI TEKS & LOGO PEMBAYARAN
+   ========================================= */
+.payment-grid { 
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 10px; 
+}
+
+.payment-card {
+    display: flex !important; 
+    flex-direction: row !important; /* Buat logo dan teks menyamping */
+    align-items: center !important; /* Sejajarkan rata tengah vertikal */
+    justify-content: center !important; /* Posisikan ke tengah kotak */
+    gap: 8px !important; /* Jarak antara logo dan teks */
+    background: rgba(255, 255, 255, 0.05); 
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px 5px !important; 
+    border-radius: 12px; 
+    cursor: pointer;
+}
+
+.payment-card img { 
+    width: 28px !important; 
+    height: 28px !important; 
+    object-fit: contain; 
+    border-radius: 4px; 
+    margin: 0 !important; /* Hilangkan margin bawaan */
+}
+
+.pay-name { 
+    font-size: 0.8rem !important; 
+    color: #b3b3b3; 
+    font-weight: 600; 
+    margin: 0 !important;
+    line-height: 1 !important; /* Merapikan tinggi teks */
+}
+
+/* Jika layar HP terlalu kecil, otomatis ubah jadi 2 kolom agar tidak sempit */
+@media (max-width: 400px) {
+    .payment-grid { 
+        grid-template-columns: repeat(2, 1fr) !important; 
+    }
+}
