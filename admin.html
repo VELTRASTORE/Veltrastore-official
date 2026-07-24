@@ -3,74 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Admin - Veltrastoreid</title>
+    <title>Sistem Inti - Veltrastoreid</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #1a0004; color: white; font-family: 'Plus Jakarta Sans', sans-serif; padding: 20px; }
+        body { background-color: #1a0004; color: white; font-family: 'Plus Jakarta Sans', sans-serif; padding: 20px; margin: 0; }
         .container { max-width: 600px; margin: 0 auto; }
         h2 { color: #ff2a75; text-align: center; }
         .card { background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 15px; border: 1px solid rgba(255, 42, 117, 0.3); margin-bottom: 20px; }
-        button { background: #ff2a75; color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; font-weight: bold; font-size: 1rem; cursor: pointer; margin-top: 10px; }
-        button:hover { background: #d61f5f; }
         
-        /* Warna Tombol Baru */
+        button { color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; font-weight: bold; font-size: 1rem; cursor: pointer; margin-top: 10px; transition: 0.3s; }
+        .btn-primary { background: #ff2a75; }
+        .btn-primary:hover { background: #d61f5f; }
         .btn-success { background: #2ed573; color: #000; }
         .btn-success:hover { background: #26b360; }
         .btn-danger { background: #ff4757; }
         .btn-danger:hover { background: #ff2a3b; }
         .btn-outline { background: transparent; border: 1px dashed #ff2a75; color: #ff2a75; }
         .btn-small { width: auto; padding: 6px 12px; font-size: 0.8rem; margin: 0; border-radius: 5px;}
+        .btn-logout { background: #555; margin-bottom: 20px; }
 
-        select, input { width: 100%; padding: 10px; margin-top: 5px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ff2a75; background: #000; color: white; box-sizing: border-box; }
+        select, input { width: 100%; padding: 12px; margin-top: 5px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ff2a75; background: #000; color: white; box-sizing: border-box; }
         .varian-box { background: rgba(0,0,0,0.5); padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 1px dashed #ff2a75; }
         .varian-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         label { font-size: 0.85rem; color: #b3b3b3; font-weight: 600; }
         .logo-preview { width: 60px; height: 60px; border-radius: 10px; object-fit: cover; display: block; margin: 0 auto 15px auto; border: 2px solid #ff2a75; background: #222; }
         hr { border: 0; border-top: 1px solid rgba(255,42,117,0.3); margin: 20px 0; }
+
+        /* Layar Login */
+        #loginScreen { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 80vh; }
+        #adminScreen { display: none; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>⚙️ Panel Admin Veltrastore</h2>
-
-        <!-- KOTAK 1: TAMBAH APLIKASI BARU -->
-        <div class="card" id="addCard">
-            <h3 style="color: #2ed573;">➕ Tambah Aplikasi Baru</h3>
-            <label>Nama Aplikasi:</label>
-            <input type="text" id="newAppName" placeholder="Contoh: Canva Pro">
-            <button id="btnAddApp" class="btn-success">Buat Aplikasi Baru</button>
-        </div>
-
-        <!-- KOTAK 2: EDIT & HAPUS APLIKASI -->
-        <div class="card" id="editCard">
-            <h3>Pilih Aplikasi Untuk Diedit</h3>
-            <select id="selectProduk"></select>
-
-            <div id="editorArea" style="display:none;">
-                <div style="background: rgba(255,42,117,0.1); padding: 15px; border-radius: 10px; border: 1px solid #ff2a75; margin-bottom: 20px;">
-                    <label>🖼️ Link Logo Aplikasi (URL dari Google):</label>
-                    <img id="previewLogo" class="logo-preview" src="https://via.placeholder.com/60" alt="Preview Logo">
-                    <input type="text" id="inputLogo" placeholder="Paste link gambar (https://...) di sini">
-                </div>
-
-                <div id="varianContainer"></div>
-                
-                <button id="btnAddVariant" class="btn-outline">+ Tambah Varian Baru</button>
-                <hr>
-                
-                <button id="btnSimpan">💾 SIMPAN PERUBAHAN KE DATABASE</button>
-                <p style="font-size: 0.8rem; text-align:center; margin-top:10px; color:#25d366;">*Jangan lupa klik simpan setelah mengedit varian/logo!</p>
-                
-                <hr>
-                <button id="btnHapusApp" class="btn-danger">🗑️ HAPUS APLIKASI INI DARI TOKO</button>
+        
+        <!-- LAYAR LOGIN -->
+        <div id="loginScreen">
+            <div class="card" style="width: 100%; text-align: center;">
+                <h2>🔒 Akses Terbatas</h2>
+                <p style="color: #b3b3b3; font-size: 0.9rem; margin-bottom: 20px;">Silakan login untuk masuk ke Admin Veltrastore</p>
+                <input type="email" id="emailInput" placeholder="Masukkan Email Admin">
+                <input type="password" id="passwordInput" placeholder="Masukkan Password">
+                <button id="btnLogin" class="btn-primary">Masuk ke Sistem</button>
             </div>
         </div>
+
+        <!-- LAYAR ADMIN (Disembunyikan sebelum login) -->
+        <div id="adminScreen">
+            <h2>⚙️ Admin Veltrastore</h2>
+            <button id="btnLogout" class="btn-logout">🚪 Keluar (Logout)</button>
+
+            <!-- KOTAK 1: TAMBAH APLIKASI -->
+            <div class="card" id="addCard">
+                <h3 style="color: #2ed573;">➕ Tambah Aplikasi Baru</h3>
+                <label>Nama Aplikasi:</label>
+                <input type="text" id="newAppName" placeholder="Contoh: Canva Pro">
+                <button id="btnAddApp" class="btn-success">Buat Aplikasi Baru</button>
+            </div>
+
+            <!-- KOTAK 2: EDIT & HAPUS APLIKASI -->
+            <div class="card" id="editCard">
+                <h3>Pilih Aplikasi Untuk Diedit</h3>
+                <select id="selectProduk"></select>
+
+                <div id="editorArea" style="display:none;">
+                    <div style="background: rgba(255,42,117,0.1); padding: 15px; border-radius: 10px; border: 1px solid #ff2a75; margin-bottom: 20px;">
+                        <label>🖼️ Link Logo Aplikasi (URL dari Google):</label>
+                        <img id="previewLogo" class="logo-preview" src="https://via.placeholder.com/60" alt="Preview Logo">
+                        <input type="text" id="inputLogo" placeholder="Paste link gambar (https://...) di sini">
+                    </div>
+
+                    <div id="varianContainer"></div>
+                    
+                    <button id="btnAddVariant" class="btn-outline">+ Tambah Varian Baru</button>
+                    <hr>
+                    
+                    <button id="btnSimpan" class="btn-primary">💾 SIMPAN PERUBAHAN KE DATABASE</button>
+                    <p style="font-size: 0.8rem; text-align:center; margin-top:10px; color:#25d366;">*Jangan lupa klik simpan setelah mengedit varian/logo!</p>
+                    
+                    <hr>
+                    <button id="btnHapusApp" class="btn-danger">🗑️ HAPUS APLIKASI INI DARI TOKO</button>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <!-- SCRIPT DATABASE FIREBASE -->
+    <!-- SCRIPT DATABASE FIREBASE & AUTHENTICATION -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCZ9JmZRYU3i9_mrYsZPj7nr566wR7VQ78",
@@ -83,12 +106,60 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const auth = getAuth(app);
         const docRef = doc(db, "toko", "katalog");
 
         let currentData = {};
         let currentLogo = {};
 
-        // 1. Load Data
+        // --- SISTEM LOGIN & LOGOUT ---
+        const loginScreen = document.getElementById('loginScreen');
+        const adminScreen = document.getElementById('adminScreen');
+
+        // Cek status login saat halaman dimuat
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // Jika sudah login, tampilkan layar admin
+                loginScreen.style.display = 'none';
+                adminScreen.style.display = 'block';
+                loadData(); // Langsung ambil data dari database
+            } else {
+                // Jika belum login, tampilkan layar login
+                loginScreen.style.display = 'flex';
+                adminScreen.style.display = 'none';
+            }
+        });
+
+        // Tombol Login Ditekan
+        document.getElementById('btnLogin').addEventListener('click', () => {
+            const email = document.getElementById('emailInput').value;
+            const password = document.getElementById('passwordInput').value;
+            
+            if(!email || !password) return alert("Email dan Password wajib diisi!");
+            
+            document.getElementById('btnLogin').innerText = "Memeriksa...";
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    document.getElementById('btnLogin').innerText = "Masuk ke Sistem";
+                    // Jika sukses, onAuthStateChanged otomatis akan menyembunyikan layar ini
+                })
+                .catch((error) => {
+                    alert("Akses Ditolak! Email atau Password salah.");
+                    document.getElementById('btnLogin').innerText = "Masuk ke Sistem";
+                });
+        });
+
+        // Tombol Logout Ditekan
+        document.getElementById('btnLogout').addEventListener('click', () => {
+            signOut(auth).then(() => {
+                alert("Kamu telah keluar dengan aman.");
+            }).catch((error) => {
+                alert("Gagal logout: " + error.message);
+            });
+        });
+
+
+        // --- SISTEM DATABASE CMS (SAMA SEPERTI SEBELUMNYA) ---
         async function loadData() {
             try {
                 const snap = await getDoc(docRef);
@@ -98,11 +169,10 @@
                     renderSelect();
                 }
             } catch (e) {
-                alert("Gagal memuat data dari database!");
+                alert("Gagal memuat data. Pastikan kamu memiliki akses internet.");
             }
         }
 
-        // 2. Render Pilihan Dropdown
         function renderSelect() {
             const select = document.getElementById('selectProduk');
             const currentValue = select.value;
@@ -112,12 +182,9 @@
                 select.innerHTML += `<option value="${key}">${key}</option>`;
             });
             
-            if(currentData[currentValue]) {
-                select.value = currentValue;
-            }
+            if(currentData[currentValue]) { select.value = currentValue; }
         }
 
-        // 3. Simpan sementara data yang sedang diketik sebelum layar refresh
         function syncInputs(key) {
             if(!key || !currentData[key]) return;
             currentLogo[key] = document.getElementById('inputLogo').value;
@@ -131,7 +198,6 @@
             });
         }
 
-        // 4. Render Kartu Varian
         function renderVariants(key) {
             const container = document.getElementById('varianContainer');
             container.innerHTML = '';
@@ -151,19 +217,13 @@
             });
         }
 
-        // --- EVENT LISTENERS ---
-
-        // Saat Dropdown Dipilih
         document.getElementById('selectProduk').addEventListener('change', (e) => {
             const key = e.target.value;
             const editorArea = document.getElementById('editorArea');
             const inputLogo = document.getElementById('inputLogo');
             const previewLogo = document.getElementById('previewLogo');
             
-            if(!key) {
-                editorArea.style.display = 'none';
-                return;
-            }
+            if(!key) { editorArea.style.display = 'none'; return; }
 
             editorArea.style.display = 'block';
             const logoUrl = currentLogo[key] || '';
@@ -174,13 +234,11 @@
             renderVariants(key);
         });
 
-        // Tambah Aplikasi Baru
         document.getElementById('btnAddApp').addEventListener('click', async () => {
             const newName = document.getElementById('newAppName').value.trim();
             if(!newName) return alert("Ketik nama aplikasi dulu!");
             if(currentData[newName]) return alert("Aplikasi ini sudah ada di daftar!");
 
-            // Buat data bawaan untuk aplikasi baru
             currentData[newName] = [{nama: "Paket 1 Bulan", harga: "Rp 0"}];
             currentLogo[newName] = "";
 
@@ -193,7 +251,6 @@
             document.getElementById('selectProduk').dispatchEvent(new Event('change'));
         });
 
-        // Hapus Aplikasi
         document.getElementById('btnHapusApp').addEventListener('click', async () => {
             const key = document.getElementById('selectProduk').value;
             if(!key) return;
@@ -210,7 +267,6 @@
             }
         });
 
-        // Tambah Varian Baru
         document.getElementById('btnAddVariant').addEventListener('click', () => {
             const key = document.getElementById('selectProduk').value;
             syncInputs(key); 
@@ -218,7 +274,6 @@
             renderVariants(key);
         });
 
-        // Hapus Varian (menggunakan delegasi event)
         document.getElementById('varianContainer').addEventListener('click', (e) => {
             if(e.target.classList.contains('btn-hapus-varian')) {
                 const index = e.target.getAttribute('data-index');
@@ -229,7 +284,6 @@
             }
         });
 
-        // Tombol Simpan Perubahan Utama
         document.getElementById('btnSimpan').addEventListener('click', async () => {
             const key = document.getElementById('selectProduk').value;
             if(!key) return alert("Pilih aplikasi dulu!");
@@ -242,12 +296,11 @@
                 alert("✅ Semua Data Berhasil Disimpan ke Database!");
                 document.getElementById('btnSimpan').innerText = "💾 SIMPAN PERUBAHAN KE DATABASE";
             } catch(e) {
-                alert("Gagal simpan: " + e.message);
+                alert("Gagal simpan! Pastikan koneksimu lancar.");
                 document.getElementById('btnSimpan').innerText = "💾 SIMPAN PERUBAHAN KE DATABASE";
             }
         });
 
-        loadData();
     </script>
 </body>
 </html>
