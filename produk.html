@@ -21,7 +21,7 @@
             </div>
             <div class="nav-dropdown-compact" id="navDropdown">
                 <a href="https://wa.me/6285166497792" target="_blank" class="btn-compact wa click-target">
-                    <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.457L0 24zm6.59-4.846c1.6.95 3.498 1.451 5.438 1.453 5.494 0 9.961-4.47 9.964-9.97.001-2.665-1.033-5.171-2.913-7.054C17.256 1.749 14.748 .713 12.004.713 6.507.713 2.04 5.183 2.038 10.684c-.001 1.992.521 3.941 1.512 5.669l-.976 3.564 3.654-.959zm11.751-7.7c-.295-.149-1.748-.865-2.013-.962-.266-.096-.459-.145-.653.149-.193.295-.749.962-.918 1.156-.17.193-.339.216-.634.068-.295-.149-1.247-.459-2.376-1.466-.879-.785-1.472-1.753-1.644-2.049-.173-.296-.018-.456.13-.603.133-.132.295-.346.443-.519.147-.173.197-.296.296-.494.099-.198.05-.371-.025-.519-.074-.149-.653-1.574-.894-2.152-.235-.565-.475-.489-.653-.498-.168-.008-.362-.01-.555-.01-.193 0-.507.072-.772.361-.266.295-1.014.992-1.014 2.422 0 1.43 1.039 2.816 1.185 3.014.147.198 2.046 3.125 4.957 4.381.692.299 1.233.478 1.654.612.697.222 1.332.19 1.833.115.559-.083 1.748-.713 1.992-1.402.244-.689.244-1.279.172-1.402-.072-.123-.266-.197-.561-.346z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.457L0 24zm6.59-4.846c1.6.95 3.498 1.451 5.438 1.453 5.494 0 9.961-4.47 9.964-9.97.001-2.665-1.033-5.171-2.913-7.054C17.256 1.749 14.748 .713 12.004.713 6.507.713 2.04 5.183 2.038 10.684c-.001 1.992.521 3.941 1.512 5.669l-.976 3.564 3.654-.959zm11.751-7.7c-.295-.149-1.748-.865-2.013-.962-.266-.096-.459-.653.149-.193.295-.749.962-.918 1.156-.17.193-.339.216-.634.068-.295-.149-1.247-.459-2.376-1.466-.879-.785-1.472-1.753-1.644-2.049-.173-.296-.018-.456.13-.603.133-.132.295-.346.443-.519.147-.173.197-.296.296-.494.099-.198.05-.371-.025-.519-.074-.149-.653-1.574-.894-2.152-.235-.565-.475-.489-.653-.498-.168-.008-.362-.01-.555-.01-.193 0-.507.072-.772.361-.266.295-1.014.992-1.014 2.422 0 1.43 1.039 2.816 1.185 3.014.147.198 2.046 3.125 4.957 4.381.692.299 1.233.478 1.654.612.697.222 1.332.19 1.833.115.559-.083 1.748-.713 1.992-1.402.244-.689.244-1.279.172-1.402-.072-.123-.266-.197-.561-.346z"/></svg>
                     WhatsApp
                 </a>
                 <a href="https://www.instagram.com/veltrastoreid?igsh=MWxraDlvbjBsdXlrOA==" target="_blank" class="btn-compact ig click-target">
@@ -47,6 +47,9 @@
         
         <div class="category-pills">
             <button class="pill active click-target" data-filter="all">Semua</button>
+            <!-- Catatan: Tombol kategori (Streaming, Musik, dll) untuk sementara mungkin menampilkan semua produk 
+                 karena sekarang produknya diambil dinamis dari database. 
+                 Nanti kalau mau difungsikan lagi, kita tinggal tambah fitur "Kategori" di admin.html ya! -->
             <button class="pill click-target" data-filter="streaming">Streaming</button>
             <button class="pill click-target" data-filter="musik">Musik</button>
             <button class="pill click-target" data-filter="editing">Editing</button>
@@ -55,290 +58,13 @@
         </div>
     </section>
 
-    <!-- PRODUCT GRID -->
+    <!-- PRODUCT GRID (OTOMATIS DARI APP.JS) -->
     <section class="product-container fade-in delay-2">
-        <div class="product-grid" id="productGrid">
-            
-            <!-- 1. STREAMING -->
-            <div class="product-card click-target" data-category="streaming" data-name="NETFLIX">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6yVYxI4MmIKwpVQIOVq2vtfCYJAmI5Se8NZvzlNDcZg&s" alt="Netflix" class="product-logo">
-                <h3>NETFLIX</h3>
-                <p class="price">Mulai Rp 26.000</p>
-                <button class="btn-pilih" data-product="NETFLIX">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="streaming" data-name="DISNEY">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuNjlKKphzFwJu1OByV59dnYLRmpzxJwv3dCn25OX-bQ&s" alt="Disney" class="product-logo">
-                <h3>DISNEY</h3>
-                <p class="price">Mulai Rp 27.000</p>
-                <button class="btn-pilih" data-product="DISNEY">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="streaming" data-name="AMAZON PRIME">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Amazon_Prime_Video_logo_%282024%29.svg/960px-Amazon_Prime_Video_logo_%282024%29.svg.png" alt="Amazon Prime" class="product-logo">
-                <h3>AMAZON PRIME</h3>
-                <p class="price">Mulai Rp 18.000</p>
-                <button class="btn-pilih" data-product="AMAZON PRIME">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="streaming" data-name="VIDIO">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLmOtO3xp9o5n7Ey0T3KW3zrG1hBYvsGvOioVbvDjGwg&s" alt="Vidio" class="product-logo">
-                <h3>VIDIO</h3>
-                <p class="price">Mulai Rp 22.500</p>
-                <button class="btn-pilih" data-product="VIDIO">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="streaming" data-name="Hbo Max">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRiN_-MAs-kqqf5lJEFO8h2vNYRQZVSl6RMsiQqn8n92W3Liebhgyfyx4&s" alt="HBO Max" class="product-logo">
-                <h3>HBO MAX</h3>
-                <p class="price">Mulai Rp 28.000</p>
-                <button class="btn-pilih" data-product="Hbo Max">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="streaming" data-name="We Tv">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOcQPK6MehGH1XPmDU9xcnobTt_tN6-rr-BdoeOalHiA&s" alt="We TV" class="product-logo">
-                <h3>We TV</h3>
-                <p class="price">Mulai Rp 19.500</p>
-                <button class="btn-pilih" data-product="We Tv">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="streaming" data-name="Viu">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRm9lIZBUzOpC7PdYJ40bv1UikNKwpq1xWy7Iom9ACUXw&s" alt="Viu" class="product-logo">
-                <h3>VIU</h3>
-                <p class="price">Mulai Rp 17.000</p>
-                <button class="btn-pilih" data-product="Viu">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="streaming" data-name="IQIYI">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6OEVuSNDFAVaLhRPqDJKNpV7dcfLVzvFe8Za3Y45mXQ&s=10" alt="iQIYI" class="product-logo">
-                <h3>iQIYI</h3>
-                <p class="price">Mulai Rp 18.000</p>
-                <button class="btn-pilih" data-product="IQIYI">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="streaming" data-name="Bstation">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThkF4vlqT0C9HN4g-TsnaRqy-qXVE3ggcA7gpMoAj9xA&s=10" alt="Bstation" class="product-logo">
-                <h3>Bstation</h3>
-                <p class="price">Mulai Rp 19.000</p>
-                <button class="btn-pilih" data-product="Bstation">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="streaming" data-name="CRUNCHYROLL">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Crunchyroll_logo_2012v.png" alt="Crunchyroll" class="product-logo">
-                <h3>Crunchyroll</h3>
-                <p class="price">Mulai Rp 19.000</p>
-                <button class="btn-pilih" data-product="CRUNCHYROLL">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="streaming" data-name="CATCHPLAY">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxoap_PUDi0gxRx971Iqc9nJmei5jq3msomFfM2BLJ5w&s=10" alt="Catchplay" class="product-logo">
-                <h3>CATCHPLAY</h3>
-                <p class="price">Mulai Rp 18.000</p>
-                <button class="btn-pilih" data-product="CATCHPLAY">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="streaming" data-name="Youku">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQs9lIzx0ovxvjs9vlPL7SIssvwxqG2HPC1JpDFcs1Xnw&s" alt="Youku" class="product-logo">
-                <h3>Youku</h3>
-                <p class="price">Mulai Rp 19.500</p>
-                <button class="btn-pilih" data-product="Youku">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="streaming" data-name="Loklok">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEEgC4uSPdadW7rrAiNFsCjg_X5eCC-mMSIO3xdYHQdA&s=10" alt="Loklok" class="product-logo">
-                <h3>Loklok</h3>
-                <p class="price">Mulai Rp 23.000</p>
-                <button class="btn-pilih" data-product="Loklok">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="streaming" data-name="Viki Plus">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYNjNF5a_ZZTkcQtoxD9LvVPkIf8lvQNhl3ccZoUrNe-cGkF3jLFGM96Q&s=10" alt="Viki Plus" class="product-logo">
-                <h3>Viki Plus</h3>
-                <p class="price">Mulai Rp 26.500</p>
-                <button class="btn-pilih" data-product="Viki Plus">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="streaming" data-name="Dramabox">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbvPCDVnKSwqGKlBhvrpn_pYxS41TmVsxPIWFGULzVQg&s=10" alt="Dramabox" class="product-logo">
-                <h3>Dramabox</h3>
-                <p class="price">Mulai Rp 26.000</p>
-                <button class="btn-pilih" data-product="Dramabox">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="streaming" data-name="Gagaoolala">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHRJiCpS6NYM_wQbcUg2N61u-fg7bmiwNu0y_M7VirEw&s=10" alt="Gagaoolala" class="product-logo">
-                <h3>Gagaoolala</h3>
-                <p class="price">Mulai Rp 27.500</p>
-                <button class="btn-pilih" data-product="Gagaoolala">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="streaming" data-name="YOUTUBE">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_4u1SeW7U2eyrpT4PLog3diCHt96fNjnFvJJCbuhZCw&s=10" alt="YouTube" class="product-logo">
-                <h3>YouTube</h3>
-                <p class="price">Mulai Rp 31.000</p>
-                <button class="btn-pilih" data-product="YOUTUBE">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="streaming" data-name="AIO DRAMA">
-                <img src="https://aiodrama.vip/image/aiodrama.ico" alt="AIO DRAMA" class="product-logo">
-                <h3>AIO DRAMA</h3>
-                <p class="price">Mulai Rp 23.000</p>
-                <button class="btn-pilih" data-product="AIO DRAMA">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="streaming" data-name="MANGO TV">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmIhvGVDGZU7QplKJvDHcSynmPwRFOW5nUgcvPlzC1Gw&s=10" alt="MANGO TV" class="product-logo">
-                <h3>MANGO TV</h3>
-                <p class="price">Mulai Rp 26.000</p>
-                <button class="btn-pilih" data-product="MANGO TV">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="streaming" data-name="MELOLO">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSe-08LOTY3ghKOk1WIw8OL6Tv0Sf16GuqKkqrBeweIyQ&s=10" alt="MELOLO" class="product-logo">
-                <h3>MELOLO</h3>
-                <p class="price">Mulai Rp 20.000</p>
-                <button class="btn-pilih" data-product="MELOLO">Pilih Paket</button>
-            </div>
-
-            <!-- 2. MUSIK -->
-            <div class="product-card click-target" data-category="musik" data-name="SPOTIFY">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSZti_mYWbJuktuo4AiToEKHBAKMwqvwdI2T3tixQD0g&s=10" alt="Spotify" class="product-logo">
-                <h3>SPOTIFY</h3>
-                <p class="price">Mulai Rp 23.000</p>
-                <button class="btn-pilih" data-product="SPOTIFY">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="musik" data-name="APPLE MUSIC">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_ngwWRrTk6vAji-wXQl6CFS2nImZ0s6FVtQeeiqZLZQ&s" alt="Apple Music" class="product-logo">
-                <h3>APPLE MUSIC</h3>
-                <p class="price">Mulai Rp 25.500</p>
-                <button class="btn-pilih" data-product="APPLE MUSIC">Pilih Paket</button>
-            </div>
-
-            <!-- 3. EDITING -->
-            <div class="product-card click-target" data-category="editing" data-name="Capcut">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSRzGVY4gN_cP591M6BmSF-e1ECtALSn7YPv2mTOJoKw&s" alt="Capcut" class="product-logo" style="border-radius:12px;">
-                <h3>CapCut Pro</h3>
-                <p class="price">Mulai Rp 26.000</p>
-                <button class="btn-pilih" data-product="Capcut">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="editing" data-name="Picsart">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuU34zIvd0RtHQMkHpuhPNVqfewy6ZPO_XK9Lx1XZbeg&s" alt="Picsart" class="product-logo">
-                <h3>PicsArt</h3>
-                <p class="price">Mulai Rp 26.000</p>
-                <button class="btn-pilih" data-product="Picsart">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="editing" data-name="VSCO">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdOC5K0o26NmfdLjX4a3mqvvNdGG95Suzl0G4Oz944BA&s=10" alt="VSCO" class="product-logo">
-                <h3>VSCO</h3>
-                <p class="price">Mulai Rp 27.500</p>
-                <button class="btn-pilih" data-product="VSCO">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="editing" data-name="Meitu">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnRYALyp-SCwB7XvSi4axcJBcIT1I6_gCC8wY1fnCBrA&s" alt="Meitu" class="product-logo">
-                <h3>Meitu</h3>
-                <p class="price">Mulai Rp 26.000</p>
-                <button class="btn-pilih" data-product="Meitu">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="editing" data-name="Wink">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSW_K6L7ssJl-hFBbeC-ymS7zrXPKqWlsw9u5YZcbhRSw&s=10" alt="Wink" class="product-logo">
-                <h3>Wink</h3>
-                <p class="price">Mulai Rp 25.500</p>
-                <button class="btn-pilih" data-product="Wink">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="editing" data-name="Alight Motion">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKC_LwLIcKl3bDB0fDgMpiid6yJkPm62qHIiXcfjXpNA&s=10" alt="Alight Motion" class="product-logo">
-                <h3>Alight Motion</h3>
-                <p class="price">Mulai Rp 17.000</p>
-                <button class="btn-pilih" data-product="Alight Motion">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="editing" data-name="Lightroom">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPXj0rPotGvJP8HW0zwoqmJY2xWJGMl-HqLokh-yLlTQ&s=10" alt="Lightroom" class="product-logo">
-                <h3>Lightroom</h3>
-                <p class="price">Mulai Rp 28.000</p>
-                <button class="btn-pilih" data-product="Lightroom">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="editing" data-name="Remini Web">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3YIbC0EpDwQvTMtasZS763DGldGMpn1TuDqldrIZA8g&s=10" alt="Remini Web" class="product-logo">
-                <h3>Remini Web</h3>
-                <p class="price">Mulai Rp 19.500</p>
-                <button class="btn-pilih" data-product="Remini Web">Pilih Paket</button>
-            </div>
-
-            <!-- 4. AI & KERJAAN -->
-            <div class="product-card click-target" data-category="ai" data-name="CANVA">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeVUEKHKUjTpedl6xl1xChKEKeFaWp0ij074-ijJRDQA&s=10" alt="Canva" class="product-logo">
-                <h3>CANVA</h3>
-                <p class="price">Mulai Rp 15.300</p>
-                <button class="btn-pilih" data-product="CANVA">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="ai" data-name="CHAT GPT">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwf78kmIrlVG8lqCC-f4hmnfb-MBJAhew7A4BwMy9-Tg&s=10" alt="ChatGPT" class="product-logo">
-                <h3>CHAT GPT</h3>
-                <p class="price">Mulai Rp 30.000</p>
-                <button class="btn-pilih" data-product="CHAT GPT">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="ai" data-name="GRAMMARLY">
-                <img src="https://images-eds-ssl.xboxlive.com/image?url=4rt9.lXDC4H_93laV1_eHHFT949fUipzkiFOBH3fAiZZUCdYojwUyX2aTonS1aIwMrx6NUIsHfUHSLzjGJFxxiq8rwXckZAP_inAe6ki68mFKhxAIYYzc96KJMP0JY4KC899jXBwKagCNpSWPkAxVBj5ADudR0.gDOfn5L.Bpkg-&format=source" alt="Grammarly" class="product-logo">
-                <h3>GRAMMARLY</h3>
-                <p class="price">Mulai Rp 19.000</p>
-                <button class="btn-pilih" data-product="GRAMMARLY">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="ai" data-name="MS365">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhEuRmiy5leSNCnGfIEB4YObMY3-pbxKqK_4O-UtEWpg&s" alt="MS365" class="product-logo">
-                <h3>MS365</h3>
-                <p class="price">Mulai Rp 20.000</p>
-                <button class="btn-pilih" data-product="MS365">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="ai" data-name="CAMSCANNER">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSp9_tjzULu_TXzcles3z6J_12fHO27zcKQGp-3ExzcQ&s=10" alt="Camscanner" class="product-logo">
-                <h3>CAMSCANNER</h3>
-                <p class="price">Mulai Rp 19.500</p>
-                <button class="btn-pilih" data-product="CAMSCANNER">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="ai" data-name="ZOOM">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEWDLV1X538nxUWZCW5AeIQDBY7GRLiOrFJ_5LBOeTEA&s" alt="Zoom" class="product-logo">
-                <h3>ZOOM</h3>
-                <p class="price">Mulai Rp 25.500</p>
-                <button class="btn-pilih" data-product="ZOOM">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="ai" data-name="GEMINI AI">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLKhFUg4Yvt1LLaIg3_JMqrZJd9Yz7ks1NvOhTcQrCYQ&s=10" alt="Gemini" class="product-logo">
-                <h3>GEMINI AI</h3>
-                <p class="price">Mulai Rp 27.500</p>
-                <button class="btn-pilih" data-product="GEMINI AI">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="ai" data-name="GROK AI">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnK-zgg6xSnssjLvapACfsyTqGTelTnde65TtImJmR-A&s=10" alt="Grok" class="product-logo">
-                <h3>GROK AI</h3>
-                <p class="price">Mulai Rp 20.000</p>
-                <button class="btn-pilih" data-product="GROK AI">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="ai" data-name="WPS PRO">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0U_aNux2ISxIYYnb_BHERRGmC7dl7wbtQNhbAsyysAw&s=10" alt="WPS Pro" class="product-logo">
-                <h3>WPS PRO</h3>
-                <p class="price">Mulai Rp 20.000</p>
-                <button class="btn-pilih" data-product="WPS PRO">Pilih Paket</button>
-            </div>
-
-            <!-- 5. EDUKASI & LAINNYA -->
-            <div class="product-card click-target" data-category="edukasi" data-name="WATTPAD">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqkuLVK04z5EGE_9unXT1ZQiX4MQ0C17qNCdjniLZGZw&s=10" alt="Wattpad" class="product-logo">
-                <h3>WATTPAD</h3>
-                <p class="price">Mulai Rp 19.000</p>
-                <button class="btn-pilih" data-product="WATTPAD">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="edukasi" data-name="SCRIBD">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbcXEW6CpSuJcLve7zJRIk7fgZismFQR6claMQz-1NXA&s=10" alt="Scribd" class="product-logo">
-                <h3>SCRIBD</h3>
-                <p class="price">Mulai Rp 17.500</p>
-                <button class="btn-pilih" data-product="SCRIBD">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="edukasi" data-name="FIZZO">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaW7LdI6a7bH0zq77pSQRh-tC2IU3u4e7X0MBXLLW4Fg&s=10" alt="Fizzo" class="product-logo">
-                <h3>FIZZO</h3>
-                <p class="price">Mulai Rp 20.000</p>
-                <button class="btn-pilih" data-product="FIZZO">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="edukasi" data-name="DUOLINGO">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSMO-F0NGMgbLqit80EoFIhI8fZvIqL1PS8vY9D1EluQg&s=10" alt="Duolingo" class="product-logo">
-                <h3>DUOLINGO</h3>
-                <p class="price">Mulai Rp 19.000</p>
-                <button class="btn-pilih" data-product="DUOLINGO">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="edukasi" data-name="iCLOUD+">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7KyEMTuyMAGaiUWZAhMEe6aHxUi5N6KX8dWdD10AZGA&s=10" alt="iCloud" class="product-logo">
-                <h3>iCLOUD+</h3>
-                <p class="price">Mulai Rp 85.000</p>
-                <button class="btn-pilih" data-product="iCLOUD+">Pilih Paket</button>
-            </div>
-            <div class="product-card click-target" data-category="edukasi" data-name="TELEPREM">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLSLwIT-xzM1crJ2InEpb0OYyG4U52Fx3cWa2eOegmNQ&s=10" alt="Telegram Premium" class="product-logo">
-                <h3>TELEPREM</h3>
-                <p class="price">Mulai Rp 67.000</p>
-                <button class="btn-pilih" data-product="TELEPREM">Pilih Paket</button>
-            </div>
-
+        <div class="product-grid" id="katalogProduk">
+            <!-- Ini area yang akan diisi oleh kotak-kotak produk dari database -->
+            <h3 style="text-align:center; color:#ff2a75; grid-column: 1 / -1; margin-top: 50px;">
+                ⏳ Memuat katalog dari database...
+            </h3>
         </div>
     </section>
 
@@ -372,7 +98,7 @@
                     <div class="variant-list" id="variantList"></div>
                 </div>
 
-                <!-- Metode Pembayaran dengan Ikon Asli -->
+                <!-- Metode Pembayaran -->
                 <div class="form-group">
                     <label>2. Metode Pembayaran</label>
                     <div class="payment-grid">
@@ -416,6 +142,7 @@
         </div>
     </div>
 
+    <!-- PANGGIL APP.JS (Wajib type="module") -->
     <script type="module" src="app.js"></script>
 </body>
 </html>
