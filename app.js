@@ -18,32 +18,7 @@ let dataLogo = {};
 
 document.addEventListener('DOMContentLoaded', () => {
     
-    // 1. FORCE SHOW ANIMASI
-    const hiddenElements = document.querySelectorAll('.scroll-reveal, .fade-in, .fade-up');
-    hiddenElements.forEach(el => {
-        el.style.opacity = "1";
-        el.style.transform = "none";
-        el.style.visibility = "visible";
-        el.classList.add('appear', 'visible', 'active');
-    });
-
-    // 2. FITUR BAWAAN
-    const hamburger = document.getElementById('hamburgerMenu');
-    const navDropdown = document.getElementById('navDropdown');
-    if(hamburger && navDropdown) {
-        hamburger.addEventListener('click', (e) => {
-            e.stopPropagation(); 
-            hamburger.classList.toggle('active');
-            navDropdown.classList.toggle('open');
-        });
-        document.addEventListener('click', (e) => {
-            if (!hamburger.contains(e.target) && !navDropdown.contains(e.target)) {
-                hamburger.classList.remove('active');
-                navDropdown.classList.remove('open');
-            }
-        });
-    }
-
+    // Fitur Search
     const searchInput = document.getElementById('searchInput');
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
@@ -57,66 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 3. LOGIKA POP-UP CHECKOUT
-    const orderModal = document.getElementById('orderModal');
-    const closeModal = document.getElementById('closeModal');
-    const variantList = document.getElementById('variantList');
-    const modalProductName = document.getElementById('modalProductName');
-    const btnCheckout = document.getElementById('btnCheckout');
-
-    document.body.addEventListener('click', (e) => {
-        if(e.target.classList.contains('btn-pilih')) {
-            if(!orderModal) return;
-            
-            const productName = e.target.getAttribute('data-product');
-            modalProductName.innerText = productName;
-            variantList.innerHTML = ''; 
-
-            const varians = dataProduk[productName];
-            
-            if (varians && varians.length > 0) {
-                varians.forEach((varian, index) => {
-                    const checked = index === 0 ? 'checked' : ''; 
-                    const html = `
-                        <label class="variant-card click-target" style="display:flex; justify-content:space-between; background:rgba(0,0,0,0.5); padding:15px; border-radius:10px; margin-bottom:10px; border:1px solid #ff2a75; cursor:pointer;">
-                            <div>
-                                <input type="radio" name="varian" value="${varian.nama}" ${checked} data-harga="${varian.harga}">
-                                <span class="variant-name" style="margin-left:10px; font-weight:bold; color:white;">${varian.nama}</span>
-                            </div>
-                            <span class="variant-price" style="color:#2ed573; font-weight:bold;">${varian.harga}</span>
-                        </label>
-                    `;
-                    variantList.innerHTML += html;
-                });
-            } else {
-                variantList.innerHTML = `<p style="color:#ff2a75; font-size:0.9rem; text-align:center;">Paket belum tersedia, cek lagi nanti!</p>`;
-            }
-            orderModal.classList.add('show');
-        }
-    });
-
-    if(closeModal && orderModal) {
-        closeModal.addEventListener('click', () => { orderModal.classList.remove('show'); });
-        orderModal.addEventListener('click', (e) => { if (e.target === orderModal) { orderModal.classList.remove('show'); } });
-    }
-
-    if(btnCheckout) {
-        btnCheckout.addEventListener('click', () => {
-            const namaProduk = modalProductName.innerText;
-            const inputVarian = document.querySelector('input[name="varian"]:checked');
-            if (!inputVarian) { return alert('Silakan pilih varian paket!'); }
-
-            const varianPilihan = inputVarian.value;
-            const hargaPilihan = inputVarian.getAttribute('data-harga');
-            const inputPayment = document.querySelector('input[name="payment"]:checked');
-            const metodePembayaran = inputPayment ? inputPayment.value : 'Belum dipilih';
-
-            const pesan = `Halo Veltrastoreid! 👋%0ASaya mau order layanan premium dengan detail berikut:%0A%0A📱 *Produk:* ${namaProduk}%0A⏱️ *Varian:* ${varianPilihan}%0A🏷️ *Harga:* ${hargaPilihan}%0A💳 *Metode Bayar:* ${metodePembayaran}%0A%0AMohon totalan dan instruksi pembayarannya ya, Kak! Terima kasih.`;
-            window.open(`https://wa.me/6285166497792?text=${pesan}`, '_blank');
-        });
-    }
-
-    // 4. MENGAMBIL DATA DATABASE
     fetchDatabase();
 });
 
@@ -136,37 +51,28 @@ async function fetchDatabase() {
                 Object.keys(dataProduk).sort().forEach(namaApp => {
                     const linkLogo = dataLogo[namaApp] || 'https://via.placeholder.com/150';
                     
-                    // Mengambil harga dari varian pertama untuk tulisan "Mulai dari..."
-                    let hargaMulai = "Rp -";
-                    if(dataProduk[namaApp] && dataProduk[namaApp].length > 0) {
-                        hargaMulai = dataProduk[namaApp][0].harga; 
-                    }
-                    
                     const card = document.createElement('div');
                     card.className = 'product-card'; 
                     card.setAttribute('data-name', namaApp);
-                    card.style.animation = "fadeInUp 0.5s ease forwards"; 
                     
-                    // KODE CARD BARU: Tinggi seragam, harga muncul, tombol rata bawah
+                    // DESAIN CARD BARU (TANPA TOMBOL, KLIK KESELURUHAN CARD)
                     card.innerHTML = `
-                        <div style="background:rgba(255,255,255,0.05); border: 1px solid rgba(255,42,117,0.3); border-radius:15px; padding:15px; text-align:center; height:100%; min-height: 250px; display:flex; flex-direction:column; justify-content:space-between; box-shadow: 0 4px 10px rgba(0,0,0,0.5); box-sizing: border-box;">
+                        <div style="background:rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius:16px; padding:15px; text-align:center; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; cursor:pointer; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.3);"
+                        onmouseover="this.style.borderColor='#ff2a75'" onmouseout="this.style.borderColor='rgba(255,255,255,0.1)'">
                             
-                            <!-- Bagian Atas: Logo & Nama (Akan mendorong tombol ke bawah) -->
-                            <div style="display: flex; flex-direction: column; align-items: center; flex-grow: 1;">
-                                <div style="width: 75px !important; height: 75px !important; min-width: 75px !important; min-height: 75px !important; margin: 0 auto 15px auto !important; background: #fff !important; border-radius: 16px !important; padding: 6px !important; border: 2px solid #ff2a75 !important; display: flex !important; align-items: center !important; justify-content: center !important; overflow: hidden !important;">
-                                    <img src="${linkLogo}" alt="${namaApp}" style="width: 100% !important; height: 100% !important; max-width: 100% !important; max-height: 100% !important; object-fit: contain !important; border-radius: 8px !important;">
-                                </div>
-                                <h3 style="font-size:1.1rem; color:#fff; font-weight:bold; margin-bottom:5px; line-height: 1.3;">${namaApp}</h3>
+                            <div style="width: 75px; height: 75px; background: #fff; border-radius: 18px; padding: 5px; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                                <img src="${linkLogo}" alt="${namaApp}" style="width: 100%; height: 100%; object-fit: contain; border-radius: 12px;">
                             </div>
 
-                            <!-- Bagian Bawah: Harga & Tombol (Selalu rata di bawah) -->
-                            <div style="margin-top: auto; padding-top: 10px;">
-                                <p style="font-size: 0.8rem; color: #b3b3b3; margin: 0 0 10px 0;">Mulai <strong style="color: #2ed573; font-size: 0.95rem;">${hargaMulai}</strong></p>
-                                <button class="btn-pilih" data-product="${namaApp}" style="background:#ff2a75; color:#fff; border:none; padding:10px; border-radius:8px; font-weight:bold; cursor:pointer; width:100%;">Pilih Paket</button>
-                            </div>
-
+                            <h3 style="font-size:1.05rem; color:#fff; font-weight:600; margin:0;">${namaApp}</h3>
                         </div>
                     `;
+
+                    // LOGIKA BARU: Jika Card diklik, Pindah ke halaman Order!
+                    card.onclick = () => {
+                        window.location.href = `order.html?app=${encodeURIComponent(namaApp)}`;
+                    };
+
                     katalogContainer.appendChild(card);
                 });
             }
