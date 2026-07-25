@@ -20,44 +20,46 @@
         .hamburger.active span:nth-child(2) { opacity: 0; }
         .hamburger.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
 
-        .nav-dropdown { position: fixed; top: 70px; right: 20px; background: #1a0004; border: 1px solid #ff2a75; border-radius: 12px; padding: 10px; display: flex; flex-direction: column; gap: 5px; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: 0.3s; z-index: 9998; box-shadow: 0 4px 20px rgba(255,42,117,0.4); min-width: 150px; }
+        .nav-dropdown { position: fixed; top: 70px; right: 20px; background: #1a0004; border: 1px solid #ff2a75; border-radius: 12px; padding: 10px; display: flex; flex-direction: column; gap: 5px; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: 0.3s; z-index: 9998; box-shadow: 0 4px 20px rgba(255,42,117,0.4); min-width: 160px; }
         .nav-dropdown.open { opacity: 1; visibility: visible; transform: translateY(0); }
         .nav-dropdown a { color: #fff; text-decoration: none; padding: 10px 15px; border-radius: 8px; font-size: 0.95rem; transition: 0.2s; font-weight: 600; }
         .nav-dropdown a:hover { background: #ff2a75; }
 
-        /* HERO SECTION */
-        .hero { padding: 120px 20px 60px 20px; text-align: center; }
+        /* HERO SECTION (Ruang kosong bawah diperkecil) */
+        .hero { padding: 120px 20px 20px 20px; text-align: center; }
         .hero h1 { font-size: 2rem; margin-bottom: 15px; line-height: 1.3; font-weight: 800; }
         .hero h1 span { color: #ff2a75; }
-        .hero p { color: #aaa; font-size: 0.95rem; margin-bottom: 30px; line-height: 1.6; max-width: 500px; margin-left: auto; margin-right: auto; }
+        .hero p { color: #aaa; font-size: 0.95rem; margin-bottom: 25px; line-height: 1.6; max-width: 500px; margin-left: auto; margin-right: auto; }
         .btn-order { background: linear-gradient(45deg, #ff2a75, #ff4757); color: white; border: none; padding: 15px 40px; border-radius: 30px; font-weight: bold; font-size: 1.1rem; cursor: pointer; text-decoration: none; display: inline-block; box-shadow: 0 10px 20px rgba(255, 42, 117, 0.3); transition: 0.3s; }
         .btn-order:hover { transform: translateY(-3px); box-shadow: 0 15px 25px rgba(255, 42, 117, 0.5); }
 
-        /* ANIMASI SCROLL MENU POPULER */
-        .hot-apps-section { margin: 40px 0; padding: 20px 0; overflow: hidden; position: relative; }
-        .hot-apps-title { text-align: center; font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 20px; }
+        /* ANIMASI SCROLL MENU POPULER (Diperbesar & Dinaikkan) */
+        .hot-apps-section { margin: 15px 0 40px 0; padding: 20px 0; overflow: hidden; position: relative; }
+        .hot-apps-title { text-align: center; font-size: 1.25rem; font-weight: 800; color: #fff; margin-bottom: 25px; }
         .hot-apps-title span { color: #ff2a75; }
         .marquee-wrapper { display: flex; width: max-content; animation: scroll-left 20s linear infinite; }
         .marquee-wrapper:hover { animation-play-state: paused; }
-        .hot-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,42,117,0.3); padding: 10px 20px; border-radius: 12px; display: flex; align-items: center; gap: 10px; margin-right: 15px; cursor: pointer; transition: 0.3s; }
-        .hot-card:hover { border-color: #ff2a75; background: rgba(255,42,117,0.1); }
-        .hot-card img { width: 35px; height: 35px; border-radius: 8px; object-fit: cover; }
-        .hot-card span { font-weight: 600; font-size: 0.9rem; white-space: nowrap; }
+        
+        /* Ukuran Card, Padding & Ikon diperbesar */
+        .hot-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,42,117,0.3); padding: 15px 25px; border-radius: 15px; display: flex; align-items: center; gap: 15px; margin-right: 20px; cursor: pointer; transition: 0.3s; }
+        .hot-card:hover { border-color: #ff2a75; background: rgba(255,42,117,0.1); transform: scale(1.05); }
+        .hot-card img { width: 50px; height: 50px; border-radius: 12px; object-fit: cover; }
+        .hot-card span { font-weight: 700; font-size: 1.1rem; white-space: nowrap; }
 
         @keyframes scroll-left { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         /* GOJO FEATURES SECTION */
-        .features { padding: 40px 20px; max-width: 600px; margin: 0 auto; overflow: hidden; }
+        .features { padding: 20px 20px 40px 20px; max-width: 600px; margin: 0 auto; overflow: hidden; }
         .section-title { text-align: center; font-size: 1.3rem; font-weight: 800; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 1px; }
         .features-grid { display: flex; flex-direction: column; gap: 15px; }
-        .feature-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 15px; padding: 20px; display: flex; align-items: center; gap: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: 0.3s; }
+        .feature-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 15px; padding: 20px; display: flex; align-items: center; gap: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: 0.3s; cursor: pointer; }
         .feature-card:hover { border-color: rgba(255,42,117,0.5); background: rgba(255,42,117,0.05); }
         .chibi-image img { width: 75px; height: auto; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5)); }
         .card-text h3 { margin: 0 0 5px 0; font-size: 1.1rem; color: #fff; }
         .card-text p { margin: 0; font-size: 0.85rem; color: #aaa; line-height: 1.5; }
 
         /* FOOTER LENGKAP */
-        .footer-new { margin-top: 40px; border-top: 1px solid rgba(255,42,117,0.3); padding: 40px 20px; font-size: 0.85rem; color: #aaa; line-height: 1.6; background: #080001; }
+        .footer-new { margin-top: 20px; border-top: 1px solid rgba(255,42,117,0.3); padding: 40px 20px; font-size: 0.85rem; color: #aaa; line-height: 1.6; background: #080001; }
         .footer-container { max-width: 800px; margin: 0 auto; }
         .footer-new h3 { color: #fff; font-size: 1.2rem; margin-bottom: 10px; font-weight: 800; }
         .footer-new h4 { color: #fff; font-size: 1rem; margin-top: 25px; margin-bottom: 15px; }
@@ -92,11 +94,12 @@
             <span></span>
         </div>
 
-        <!-- Dropdown Menu -->
+        <!-- Dropdown Menu (SUDAH DIUPDATE) -->
         <div class="nav-dropdown" id="navDropdown">
             <a href="index.html">🏠 Beranda</a>
             <a href="produk.html">🛍️ Katalog Order</a>
-            <a href="tentang.html">ℹ️ Tentang Kami</a>
+            <a href="https://www.instagram.com/veltrastoreid?igsh=MWxraDlvbjBsdXlrOA==" target="_blank">📸 Instagram</a>
+            <a href="https://wa.me/6285166497792" target="_blank">💬 WhatsApp</a>
         </div>
     </div>
 
@@ -107,7 +110,7 @@
         <a href="produk.html" class="btn-order">Lihat Katalog Premium</a>
     </div>
 
-    <!-- APLIKASI POPULER -->
+    <!-- APLIKASI POPULER (DIPERBESAR & DINAIKKAN) -->
     <div class="hot-apps-section scroll-reveal reveal-bottom">
         <div class="hot-apps-title">🔥 Sedang <span>Tren & Laris</span> Minggu Ini</div>
         <div class="marquee-wrapper" onclick="window.location.href='produk.html'">
@@ -124,11 +127,12 @@
         </div>
     </div>
 
-    <!-- KEUNGGULAN SECTION (GOJO IS BACK!) -->
+    <!-- KEUNGGULAN SECTION (GOJO FULL ANIMASI) -->
     <section id="keunggulan" class="features">
         <h2 class="section-title scroll-reveal reveal-top">Kenapa Harus di Veltrastoreid?</h2>
         <div class="features-grid">
             
+            <!-- Card 1 (Proses Cepat) -->
             <div class="feature-card click-target scroll-reveal reveal-left">
                 <div class="chibi-image">
                     <img src="https://i.ibb.co.com/1tBwycbR/30b09a5f-5f31-490d-9d8d-94c8f3c0b8ba-removalai-preview.png" alt="Proses Kilat">
@@ -139,6 +143,7 @@
                 </div>
             </div>
 
+            <!-- Card 2 (Full Garansi) -->
             <div class="feature-card click-target scroll-reveal reveal-bottom">
                 <div class="chibi-image">
                     <img src="https://i.ibb.co.com/0VcyVdDN/3d8bb647-573c-45cb-8515-5fc93319915c-removalai-preview.png" alt="Full Garansi">
@@ -149,6 +154,7 @@
                 </div>
             </div>
 
+            <!-- Card 3 (Hemat) -->
             <div class="feature-card click-target scroll-reveal reveal-right">
                 <div class="chibi-image">
                     <img src="https://i.ibb.co.com/dJX0DbKF/47b8770c-7f03-49d0-a791-cc8307ee0be7-removalai-preview.png" alt="Hemat Up To 70%">
@@ -190,7 +196,8 @@
                 
                 <div style="flex: 1; min-width: 150px;">
                     <h4>Hubungi Kami</h4>
-                    <a href="https://wa.me/6283807394983" target="_blank" class="btn-wa">💬 Chat WhatsApp</a>
+                    <!-- Link WhatsApp Footer disamakan dengan requestmu -->
+                    <a href="https://wa.me/6285166497792" target="_blank" class="btn-wa">💬 Chat WhatsApp</a>
                 </div>
             </div>
             
