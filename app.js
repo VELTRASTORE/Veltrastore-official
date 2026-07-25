@@ -141,15 +141,13 @@ async function fetchDatabase() {
                     card.setAttribute('data-name', namaApp);
                     card.style.animation = "fadeInUp 0.5s ease forwards"; 
                     
-                    // PERUBAHAN DI SINI: Bingkai Logo Seragam
+                    // BINGKAI LOGO DENGAN KUNCI MATI (!important)
                     card.innerHTML = `
                         <div style="background:rgba(255,255,255,0.05); border: 1px solid rgba(255,42,117,0.3); border-radius:15px; padding:15px; text-align:center; height:100%; display:flex; flex-direction:column; justify-content:space-between; box-shadow: 0 4px 10px rgba(0,0,0,0.5);">
                             
-                            <!-- BINGKAI LOGO -->
-                            <div style="width: 75px; height: 75px; margin: 0 auto 15px auto; background: #fff; border-radius: 16px; padding: 5px; border: 2px solid #ff2a75; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-                                <img src="${linkLogo}" alt="${namaApp}" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 10px;">
+                            <div style="width: 75px !important; height: 75px !important; min-width: 75px !important; min-height: 75px !important; margin: 0 auto 15px auto !important; background: #fff !important; border-radius: 16px !important; padding: 6px !important; border: 2px solid #ff2a75 !important; display: flex !important; align-items: center !important; justify-content: center !important; overflow: hidden !important;">
+                                <img src="${linkLogo}" alt="${namaApp}" style="width: 100% !important; height: 100% !important; max-width: 100% !important; max-height: 100% !important; object-fit: contain !important; border-radius: 8px !important;">
                             </div>
-                            <!-- END BINGKAI LOGO -->
 
                             <h3 style="font-size:1.1rem; color:#fff; font-weight:bold; margin-bottom:15px;">${namaApp}</h3>
                             <button class="btn-pilih" data-product="${namaApp}" style="background:#ff2a75; color:#fff; border:none; padding:10px; border-radius:8px; font-weight:bold; cursor:pointer; width:100%;">Pilih Paket</button>
