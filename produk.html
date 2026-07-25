@@ -1,6 +1,31 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
+    <style>
+        /* PAKSA JADI 3 KOLOM */
+        #katalogProduk {
+            display: grid !important;
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 10px !important;
+        }
+        
+        /* Agar di 3 kolom ukurannya tetap proporsional */
+        .product-card { padding: 10px !important; }
+        .product-card h3 { font-size: 0.85rem !important; }
+
+        /* CSS FOOTER UNTUK HALAMAN PRODUK */
+        .footer-new { margin-top: 40px; border-top: 1px solid rgba(255,42,117,0.3); padding: 30px 20px; font-size: 0.85rem; color: #aaa; line-height: 1.6; background: #0d0002; width: 100%; box-sizing: border-box; }
+        .footer-new h3 { color: #fff; font-size: 1.1rem; margin-bottom: 5px; }
+        .footer-new h4 { color: #fff; font-size: 0.95rem; margin-top: 20px; margin-bottom: 10px; }
+        .footer-new a { color: #2ed573; text-decoration: none; font-weight: bold; }
+        .footer-links { list-style: none; padding: 0; margin: 0; }
+        .footer-links li { margin-bottom: 8px; }
+        .footer-links a { color: #aaa; font-weight: normal; transition: 0.2s; }
+        .footer-links a:hover { color: #ff2a75; }
+        .pay-logos { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 5px; align-items: center; }
+        .pay-logos img { height: 22px; object-fit: contain; background: transparent; filter: drop-shadow(0px 0px 2px rgba(255,255,255,0.3)); }
+        .btn-wa { display: inline-block; background: #25D366; color: #fff !important; padding: 8px 18px; border-radius: 20px; text-decoration: none; font-weight: bold; font-size: 0.85rem; margin-top: 5px; transition: 0.3s; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); }
+    </style>
+    <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Katalog Produk - Veltrastoreid</title>
