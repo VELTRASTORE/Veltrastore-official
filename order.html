@@ -44,8 +44,13 @@
         .footer-links a { color: #aaa; font-weight: normal; transition: 0.2s; }
         .footer-links a:hover { color: #ff2a75; }
 
-        .pay-logos { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 5px; }
-        .pay-logos img { height: 20px; object-fit: contain; background: #fff; padding: 3px 8px; border-radius: 4px; }
+        /* PERBAIKAN LOGO PEMBAYARAN (TRANSPARAN) */
+        .pay-logos { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 5px; align-items: center; }
+        .pay-logos img { height: 22px; object-fit: contain; background: transparent; padding: 0; border-radius: 0; filter: drop-shadow(0px 0px 2px rgba(255,255,255,0.3)); }
+
+        /* TOMBOL WA BARU */
+        .btn-wa { display: inline-block; background: #25D366; color: #fff !important; padding: 8px 18px; border-radius: 20px; text-decoration: none; font-weight: bold; font-size: 0.85rem; margin-top: 5px; transition: 0.3s; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); }
+        .btn-wa:hover { background: #20bd5a; transform: translateY(-2px); }
 
         /* BOTTOM BAR DARK MODE */
         .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #1a0004; padding: 15px 20px; border-top: 1px solid rgba(255,42,117,0.3); display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; z-index: 100;}
@@ -79,16 +84,16 @@
             <div class="section-title"><div class="circle-num">2</div> Pilih Pembayaran</div>
             <div class="pay-grid" id="payGrid">
                 <div class="pay-card active" data-pay="QRIS">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHgsGAEqwXk9sE66NnDCcVNEGg8lj5ohF0WPdJnf5ydecGcqSrcNy7QWA&s" alt="QRIS"><div class="pay-name">QRIS</div>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logo_QRIS.svg/1200px-Logo_QRIS.svg.png" alt="QRIS"><div class="pay-name">QRIS</div>
                 </div>
                 <div class="pay-card" data-pay="DANA">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFlvqPjhdqYBW1WF2CyfiI8zm1YhZ8lcQkwLcHMfDp2g&s" alt="DANA"><div class="pay-name">DANA</div>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Logo_dana_blue.svg/1200px-Logo_dana_blue.svg.png" alt="DANA"><div class="pay-name">DANA</div>
                 </div>
                 <div class="pay-card" data-pay="GOPAY">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRT8imES7RT_Tu1zQaf9QsuZR74g4oBwY4gD-0IAYVW6A&s" alt="GOPAY"><div class="pay-name">GoPay</div>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Gopay_logo.svg/1200px-Gopay_logo.svg.png" alt="GOPAY"><div class="pay-name">GoPay</div>
                 </div>
                 <div class="pay-card" data-pay="OVO">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFPl-cxFU2OT1xs3dW6sV0oYUqFblZ1f8RGKAHxJQWfA&s=10" alt="OVO"><div class="pay-name">OVO</div>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Logo_ovo_purple.svg/1200px-Logo_ovo_purple.svg.png" alt="OVO"><div class="pay-name">OVO</div>
                 </div>
                 <div class="pay-card" data-pay="SEABANK">
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq5FyxcoFasD3Wm8wcQkvImEs3jll_1pSI_ljTV8-CDQ&s=10" alt="SEABANK"><div class="pay-name">SeaBank</div>
@@ -102,12 +107,12 @@
             <p>Platform penyedia layanan aplikasi premium, streaming, dan digital goods termurah dan terpercaya di Indonesia. Transaksi cepat, aman, dan bergaransi.</p>
             
             <h4>Pembayaran Aman</h4>
-            <!-- LOGO PEMBAYARAN DI FOOTER -->
+            <!-- LOGO PEMBAYARAN DI FOOTER TANPA BACKGROUND PUTIH -->
             <div class="pay-logos">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHgsGAEqwXk9sE66NnDCcVNEGg8lj5ohF0WPdJnf5ydecGcqSrcNy7QWA&s" alt="QRIS">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFlvqPjhdqYBW1WF2CyfiI8zm1YhZ8lcQkwLcHMfDp2g&s" alt="DANA">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRT8imES7RT_Tu1zQaf9QsuZR74g4oBwY4gD-0IAYVW6A&s" alt="GOPAY">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFPl-cxFU2OT1xs3dW6sV0oYUqFblZ1f8RGKAHxJQWfA&s=10" alt="OVO">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Logo_QRIS.svg/1200px-Logo_QRIS.svg.png" alt="QRIS">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Logo_dana_blue.svg/1200px-Logo_dana_blue.svg.png" alt="DANA">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Gopay_logo.svg/1200px-Gopay_logo.svg.png" alt="GOPAY">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Logo_ovo_purple.svg/1200px-Logo_ovo_purple.svg.png" alt="OVO">
             </div>
 
             <div style="display: flex; justify-content: space-between; flex-wrap: wrap; margin-top: 20px;">
@@ -123,7 +128,8 @@
                 
                 <div style="flex: 1; min-width: 150px;">
                     <h4>Hubungi Kami</h4>
-                    <p style="margin: 0;">📞 Chat WhatsApp:<br><a href="https://wa.me/6283807394983" target="_blank">0838-0739-4983</a></p>
+                    <!-- TOMBOL WA BARU -->
+                    <a href="https://wa.me/6283807394983" target="_blank" class="btn-wa">💬 Chat WhatsApp</a>
                 </div>
             </div>
         </div>
