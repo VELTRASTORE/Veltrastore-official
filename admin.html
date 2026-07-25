@@ -19,10 +19,10 @@
         .btn-danger { background: #ff4757; }
         .btn-danger:hover { background: #ff2a3b; }
         .btn-outline { background: transparent; border: 1px dashed #ff2a75; color: #ff2a75; }
-        .btn-small { width: auto; padding: 6px 12px; font-size: 0.8rem; margin: 0; border-radius: 5px;}
+        .btn-small { width: auto; padding: 10px 15px; font-size: 0.9rem; margin: 0; border-radius: 8px;}
         .btn-logout { background: #555; margin-bottom: 20px; }
 
-        select, input { width: 100%; padding: 12px; margin-top: 5px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ff2a75; background: #000; color: white; box-sizing: border-box; }
+        select, input { width: 100%; padding: 12px; margin-top: 5px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ff2a75; background: #000; color: white; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif;}
         .varian-box { background: rgba(0,0,0,0.5); padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 1px dashed #ff2a75; }
         .varian-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         label { font-size: 0.85rem; color: #b3b3b3; font-weight: 600; }
@@ -32,6 +32,8 @@
         /* Layar Login */
         #loginScreen { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 80vh; }
         #adminScreen { display: none; }
+        
+        .flex-row { display: flex; gap: 10px; align-items: center; }
     </style>
 </head>
 <body>
@@ -41,14 +43,14 @@
         <div id="loginScreen">
             <div class="card" style="width: 100%; text-align: center;">
                 <h2>🔒 Akses Terbatas</h2>
-                <p style="color: #b3b3b3; font-size: 0.9rem; margin-bottom: 20px;">Silakan login untuk masuk ke Admin Veltrastore</p>
+                <p style="color: #b3b3b3; font-size: 0.9rem; margin-bottom: 20px;">Silakan login untuk masuk ke Dapur Veltrastore</p>
                 <input type="email" id="emailInput" placeholder="Masukkan Email Admin">
                 <input type="password" id="passwordInput" placeholder="Masukkan Password">
                 <button id="btnLogin" class="btn-primary">Masuk ke Sistem</button>
             </div>
         </div>
 
-        <!-- LAYAR ADMIN (Disembunyikan sebelum login) -->
+        <!-- LAYAR ADMIN -->
         <div id="adminScreen">
             <h2>⚙️ Admin Veltrastore</h2>
             <button id="btnLogout" class="btn-logout">🚪 Keluar (Logout)</button>
@@ -67,6 +69,17 @@
                 <select id="selectProduk"></select>
 
                 <div id="editorArea" style="display:none;">
+                    
+                    <!-- FITUR BARU: GANTI NAMA APLIKASI -->
+                    <div style="background: rgba(46, 213, 115, 0.1); padding: 15px; border-radius: 10px; border: 1px solid #2ed573; margin-bottom: 20px;">
+                        <label>✏️ Ubah Nama Aplikasi:</label>
+                        <div class="flex-row" style="margin-top: 5px;">
+                            <input type="text" id="inputEditNama" placeholder="Nama baru..." style="margin-bottom: 0;">
+                            <button id="btnEditNama" class="btn-success btn-small" style="margin-top: 0;">Simpan Nama</button>
+                        </div>
+                        <p style="font-size: 0.75rem; color: #b3b3b3; margin-top: 5px; margin-bottom: 0;">*Hati-hati, mengganti nama akan langsung disimpan ke database.</p>
+                    </div>
+
                     <div style="background: rgba(255,42,117,0.1); padding: 15px; border-radius: 10px; border: 1px solid #ff2a75; margin-bottom: 20px;">
                         <label>🖼️ Link Logo Aplikasi (URL dari Google):</label>
                         <img id="previewLogo" class="logo-preview" src="https://via.placeholder.com/60" alt="Preview Logo">
@@ -116,50 +129,36 @@
         const loginScreen = document.getElementById('loginScreen');
         const adminScreen = document.getElementById('adminScreen');
 
-        // Cek status login saat halaman dimuat
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // Jika sudah login, tampilkan layar admin
                 loginScreen.style.display = 'none';
                 adminScreen.style.display = 'block';
-                loadData(); // Langsung ambil data dari database
+                loadData(); 
             } else {
-                // Jika belum login, tampilkan layar login
                 loginScreen.style.display = 'flex';
                 adminScreen.style.display = 'none';
             }
         });
 
-        // Tombol Login Ditekan
         document.getElementById('btnLogin').addEventListener('click', () => {
             const email = document.getElementById('emailInput').value;
             const password = document.getElementById('passwordInput').value;
-            
             if(!email || !password) return alert("Email dan Password wajib diisi!");
             
             document.getElementById('btnLogin').innerText = "Memeriksa...";
             signInWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-                    document.getElementById('btnLogin').innerText = "Masuk ke Sistem";
-                    // Jika sukses, onAuthStateChanged otomatis akan menyembunyikan layar ini
-                })
-                .catch((error) => {
+                .then(() => { document.getElementById('btnLogin').innerText = "Masuk ke Sistem"; })
+                .catch(() => {
                     alert("Akses Ditolak! Email atau Password salah.");
                     document.getElementById('btnLogin').innerText = "Masuk ke Sistem";
                 });
         });
 
-        // Tombol Logout Ditekan
         document.getElementById('btnLogout').addEventListener('click', () => {
-            signOut(auth).then(() => {
-                alert("Kamu telah keluar dengan aman.");
-            }).catch((error) => {
-                alert("Gagal logout: " + error.message);
-            });
+            signOut(auth).then(() => { alert("Kamu telah keluar dengan aman."); });
         });
 
-
-        // --- SISTEM DATABASE CMS (SAMA SEPERTI SEBELUMNYA) ---
+        // --- SISTEM DATABASE CMS ---
         async function loadData() {
             try {
                 const snap = await getDoc(docRef);
@@ -207,7 +206,7 @@
                     <div class="varian-box">
                         <div class="varian-header">
                             <label>Varian ke-${index + 1}:</label>
-                            <button class="btn-danger btn-small btn-hapus-varian" data-index="${index}">Hapus</button>
+                            <button class="btn-danger btn-small btn-hapus-varian" data-index="${index}" style="padding: 5px 10px; font-size: 0.8rem;">Hapus</button>
                         </div>
                         <input type="text" id="nama_${key}_${index}" value="${varian.nama}" placeholder="Nama Paket">
                         <label>Harga (Misal: Rp 20.000):</label>
@@ -217,21 +216,66 @@
             });
         }
 
+        // EVENT: Pilih Dropdown Aplikasi
         document.getElementById('selectProduk').addEventListener('change', (e) => {
             const key = e.target.value;
             const editorArea = document.getElementById('editorArea');
             const inputLogo = document.getElementById('inputLogo');
             const previewLogo = document.getElementById('previewLogo');
+            const inputEditNama = document.getElementById('inputEditNama');
             
             if(!key) { editorArea.style.display = 'none'; return; }
 
             editorArea.style.display = 'block';
+            
+            // Set input nama baru dengan nama yang sekarang
+            inputEditNama.value = key;
+
             const logoUrl = currentLogo[key] || '';
             inputLogo.value = logoUrl;
             previewLogo.src = logoUrl ? logoUrl : 'https://via.placeholder.com/60';
             
             inputLogo.oninput = () => { previewLogo.src = inputLogo.value ? inputLogo.value : 'https://via.placeholder.com/60'; };
             renderVariants(key);
+        });
+
+        // EVENT: Fitur Baru - Ubah Nama Aplikasi
+        document.getElementById('btnEditNama').addEventListener('click', async () => {
+            const oldName = document.getElementById('selectProduk').value;
+            const newName = document.getElementById('inputEditNama').value.trim();
+
+            if(!oldName) return alert("Pilih aplikasi dulu!");
+            if(!newName) return alert("Nama baru tidak boleh kosong!");
+            if(oldName === newName) return alert("Nama belum ada perubahan!");
+            if(currentData[newName]) return alert("Aplikasi dengan nama ini sudah ada, pilih nama lain!");
+
+            if(confirm(`Yakin ingin mengubah nama dari "${oldName}" menjadi "${newName}"?`)) {
+                document.getElementById('btnEditNama').innerText = "⏳";
+                
+                // Sinkronkan input varian dan logo yang mungkin baru diketik sebelum ganti nama
+                syncInputs(oldName);
+
+                // Pindahkan data ke nama baru
+                currentData[newName] = currentData[oldName];
+                currentLogo[newName] = currentLogo[oldName];
+
+                // Hapus data lama
+                delete currentData[oldName];
+                delete currentLogo[oldName];
+
+                try {
+                    await setDoc(docRef, { dataProduk: currentData, dataLogo: currentLogo });
+                    alert(`✅ Nama aplikasi berhasil diubah menjadi ${newName}!`);
+                    
+                    renderSelect(); // Update dropdown
+                    document.getElementById('selectProduk').value = newName; // Pilih nama baru otomatis
+                    document.getElementById('selectProduk').dispatchEvent(new Event('change')); // Refresh kotak varian
+                    document.getElementById('btnEditNama').innerText = "Simpan Nama";
+                } catch(e) {
+                    alert("Gagal mengubah nama: " + e.message);
+                    document.getElementById('btnEditNama').innerText = "Simpan Nama";
+                }
+            }
         });
 
         document.getElementById('btnAddApp').addEventListener('click', async () => {
