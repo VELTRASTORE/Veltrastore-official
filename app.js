@@ -18,10 +18,7 @@ let dataLogo = {};
 
 document.addEventListener('DOMContentLoaded', () => {
     
-    // ==========================================
-    // 1. PERBAIKAN BUG LAYAR GELAP (FORCE SHOW)
-    // ==========================================
-    // Memaksa semua teks dan kotak yang punya efek animasi untuk langsung muncul!
+    // 1. FORCE SHOW ANIMASI
     const hiddenElements = document.querySelectorAll('.scroll-reveal, .fade-in, .fade-up');
     hiddenElements.forEach(el => {
         el.style.opacity = "1";
@@ -30,9 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         el.classList.add('appear', 'visible', 'active');
     });
 
-    // ==========================================
-    // 2. FITUR BAWAAN WEBSITE
-    // ==========================================
+    // 2. FITUR BAWAAN
     const hamburger = document.getElementById('hamburgerMenu');
     const navDropdown = document.getElementById('navDropdown');
     if(hamburger && navDropdown) {
@@ -49,19 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const faqItems = document.querySelectorAll('.faq-item');
-    if(faqItems.length > 0) {
-        faqItems.forEach(item => {
-            item.addEventListener('click', () => {
-                const currentActive = document.querySelector('.faq-item.active-faq');
-                if (currentActive && currentActive !== item) {
-                    currentActive.classList.remove('active-faq');
-                }
-                item.classList.toggle('active-faq');
-            });
-        });
-    }
-
     const searchInput = document.getElementById('searchInput');
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
@@ -75,9 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ==========================================
     // 3. LOGIKA POP-UP CHECKOUT
-    // ==========================================
     const orderModal = document.getElementById('orderModal');
     const closeModal = document.getElementById('closeModal');
     const variantList = document.getElementById('variantList');
@@ -124,7 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
         btnCheckout.addEventListener('click', () => {
             const namaProduk = modalProductName.innerText;
             const inputVarian = document.querySelector('input[name="varian"]:checked');
-            
             if (!inputVarian) { return alert('Silakan pilih varian paket!'); }
 
             const varianPilihan = inputVarian.value;
@@ -133,14 +112,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const metodePembayaran = inputPayment ? inputPayment.value : 'Belum dipilih';
 
             const pesan = `Halo Veltrastoreid! 👋%0ASaya mau order layanan premium dengan detail berikut:%0A%0A📱 *Produk:* ${namaProduk}%0A⏱️ *Varian:* ${varianPilihan}%0A🏷️ *Harga:* ${hargaPilihan}%0A💳 *Metode Bayar:* ${metodePembayaran}%0A%0AMohon totalan dan instruksi pembayarannya ya, Kak! Terima kasih.`;
-            
             window.open(`https://wa.me/6285166497792?text=${pesan}`, '_blank');
         });
     }
 
-    // ==========================================
     // 4. MENGAMBIL DATA DATABASE
-    // ==========================================
     fetchDatabase();
 });
 
@@ -163,12 +139,18 @@ async function fetchDatabase() {
                     const card = document.createElement('div');
                     card.className = 'product-card'; 
                     card.setAttribute('data-name', namaApp);
-                    // Tambahkan animasi saat dicetak
                     card.style.animation = "fadeInUp 0.5s ease forwards"; 
                     
+                    // PERUBAHAN DI SINI: Bingkai Logo Seragam
                     card.innerHTML = `
                         <div style="background:rgba(255,255,255,0.05); border: 1px solid rgba(255,42,117,0.3); border-radius:15px; padding:15px; text-align:center; height:100%; display:flex; flex-direction:column; justify-content:space-between; box-shadow: 0 4px 10px rgba(0,0,0,0.5);">
-                            <img src="${linkLogo}" alt="${namaApp}" style="width:80px; height:80px; object-fit:cover; border-radius:15px; margin: 0 auto 15px auto; border: 1px solid #ff2a75;">
+                            
+                            <!-- BINGKAI LOGO -->
+                            <div style="width: 75px; height: 75px; margin: 0 auto 15px auto; background: #fff; border-radius: 16px; padding: 5px; border: 2px solid #ff2a75; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                                <img src="${linkLogo}" alt="${namaApp}" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 10px;">
+                            </div>
+                            <!-- END BINGKAI LOGO -->
+
                             <h3 style="font-size:1.1rem; color:#fff; font-weight:bold; margin-bottom:15px;">${namaApp}</h3>
                             <button class="btn-pilih" data-product="${namaApp}" style="background:#ff2a75; color:#fff; border:none; padding:10px; border-radius:8px; font-weight:bold; cursor:pointer; width:100%;">Pilih Paket</button>
                         </div>
