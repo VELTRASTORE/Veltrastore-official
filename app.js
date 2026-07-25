@@ -17,8 +17,6 @@ let dataProduk = {};
 let dataLogo = {};
 
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // Fitur Search
     const searchInput = document.getElementById('searchInput');
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
@@ -31,7 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
-
     fetchDatabase();
 });
 
@@ -50,25 +47,23 @@ async function fetchDatabase() {
                 
                 Object.keys(dataProduk).sort().forEach(namaApp => {
                     const linkLogo = dataLogo[namaApp] || 'https://via.placeholder.com/150';
-                    
                     const card = document.createElement('div');
                     card.className = 'product-card'; 
                     card.setAttribute('data-name', namaApp);
                     
-                    // DESAIN CARD BARU (TANPA TOMBOL, KLIK KESELURUHAN CARD)
+                    // PERBAIKAN LOGO: object-fit: cover dan hapus background putih
                     card.innerHTML = `
                         <div style="background:rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius:16px; padding:15px; text-align:center; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; cursor:pointer; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.3);"
                         onmouseover="this.style.borderColor='#ff2a75'" onmouseout="this.style.borderColor='rgba(255,255,255,0.1)'">
                             
-                            <div style="width: 75px; height: 75px; background: #fff; border-radius: 18px; padding: 5px; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
-                                <img src="${linkLogo}" alt="${namaApp}" style="width: 100%; height: 100%; object-fit: contain; border-radius: 12px;">
+                            <div style="width: 75px; height: 75px; border-radius: 18px; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(255, 42, 117, 0.2);">
+                                <img src="${linkLogo}" alt="${namaApp}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 18px;">
                             </div>
 
                             <h3 style="font-size:1.05rem; color:#fff; font-weight:600; margin:0;">${namaApp}</h3>
                         </div>
                     `;
 
-                    // LOGIKA BARU: Jika Card diklik, Pindah ke halaman Order!
                     card.onclick = () => {
                         window.location.href = `order.html?app=${encodeURIComponent(namaApp)}`;
                     };
