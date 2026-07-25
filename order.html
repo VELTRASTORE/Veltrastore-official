@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order - Veltrastoreid</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #f4f5f7; color: #333; font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; padding: 0; }
+        .header { background: #fff; padding: 15px 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 15px; position: sticky; top: 0; z-index: 100;}
+        .header img { width: 50px; height: 50px; border-radius: 12px; object-fit: contain; border: 1px solid #eee; }
+        .header h2 { margin: 0; font-size: 1.2rem; color: #111; }
+        
+        .container { max-width: 600px; margin: 0 auto; padding: 15px; padding-bottom: 100px; }
+        
+        .section-box { background: #fff; border-radius: 12px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+        .section-title { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 1.1rem; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px;}
+        .circle-num { background: #ff2a75; color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
+
+        /* GRID VARIAN ALA LAPAKGAMING */
+        .variant-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .variant-card { border: 1px solid #ddd; border-radius: 10px; padding: 12px; cursor: pointer; transition: 0.2s; background: #fff; }
+        .variant-card.active { border: 2px solid #ff2a75; background: rgba(255, 42, 117, 0.05); }
+        .variant-name { font-size: 0.85rem; font-weight: 600; margin-bottom: 5px; display: block; color: #333;}
+        .variant-price { font-size: 0.95rem; font-weight: bold; color: #ff2a75; }
+
+        /* GRID PEMBAYARAN */
+        .pay-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .pay-card { border: 1px solid #ddd; border-radius: 8px; padding: 10px; text-align: center; cursor: pointer; }
+        .pay-card.active { border: 2px solid #2ed573; background: rgba(46, 213, 115, 0.05); }
+        .pay-card img { width: 100%; height: 25px; object-fit: contain; margin-bottom: 5px;}
+        .pay-name { font-size: 0.75rem; font-weight: 600; color: #555;}
+
+        /* FOOTER BARU */
+        .footer-new { margin-top: 30px; border-top: 1px solid #ddd; padding-top: 20px; font-size: 0.85rem; color: #666; line-height: 1.6; }
+        .footer-new h3 { color: #111; font-size: 1rem; margin-bottom: 5px; }
+        .footer-new a { color: #2ed573; text-decoration: none; font-weight: bold; }
+
+        /* BOTTOM BAR CHECKOUT */
+        .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; padding: 15px 20px; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; z-index: 100;}
+        .bottom-price { font-size: 1.2rem; font-weight: bold; color: #ff2a75; }
+        .btn-beli { background: #ff2a75; color: white; border: none; padding: 12px 25px; border-radius: 25px; font-weight: bold; font-size: 1rem; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <!-- Header Nama Aplikasi -->
+    <div class="header">
+        <img id="appLogo" src="https://via.placeholder.com/50" alt="Logo">
+        <div>
+            <h2 id="appName">Memuat...</h2>
+            <span style="font-size: 0.8rem; color: #888;">Layanan Premium</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Section 1: Varian -->
+        <div class="section-box">
+            <div class="section-title"><div class="circle-num">1</div> Pilih Layanan</div>
+            <div class="variant-grid" id="variantGrid">
+                <p style="grid-column: 1 / -1; text-align: center; color: #888;">Memuat data...</p>
+            </div>
+        </div>
+
+        <!-- Section 2: Pembayaran -->
+        <div class="section-box">
+            <div class="section-title"><div class="circle-num">2</div> Pilih Pembayaran</div>
+            <div class="pay-grid" id="payGrid">
+                <div class="pay-card active" data-pay="QRIS">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHgsGAEqwXk9sE66NnDCcVNEGg8lj5ohF0WPdJnf5ydecGcqSrcNy7QWA&s" alt="QRIS"><div class="pay-name">QRIS</div>
+                </div>
+                <div class="pay-card" data-pay="DANA">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFlvqPjhdqYBW1WF2CyfiI8zm1YhZ8lcQkwLcHMfDp2g&s" alt="DANA"><div class="pay-name">DANA</div>
+                </div>
+                <div class="pay-card" data-pay="GOPAY">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRT8imES7RT_Tu1zQaf9QsuZR74g4oBwY4gD-0IAYVW6A&s" alt="GOPAY"><div class="pay-name">GoPay</div>
+                </div>
+                <div class="pay-card" data-pay="OVO">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFPl-cxFU2OT1xs3dW6sV0oYUqFblZ1f8RGKAHxJQWfA&s=10" alt="OVO"><div class="pay-name">OVO</div>
+                </div>
+                <div class="pay-card" data-pay="SEABANK">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq5FyxcoFasD3Wm8wcQkvImEs3jll_1pSI_ljTV8-CDQ&s=10" alt="SEABANK"><div class="pay-name">SeaBank</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER CUSTOM VELTRA -->
+        <div class="footer-new">
+            <h3>Veltra Store</h3>
+            <p>Platform penyedia layanan aplikasi premium, streaming, dan digital goods termurah dan terpercaya di Indonesia. Transaksi cepat, aman, dan bergaransi.</p>
+            
+            <h4 style="color: #111; margin-top: 15px; margin-bottom: 5px;">Pembayaran Aman</h4>
+            <p>QRIS • DANA • GoPay • OVO • SeaBank • Transfer Bank</p>
+
+            <h4 style="color: #111; margin-top: 15px; margin-bottom: 5px;">Hubungi Kami</h4>
+            <p>📞 Chat WhatsApp: <a href="https://wa.me/6283807394983" target="_blank">0838-0739-4983</a></p>
+        </div>
+    </div>
+
+    <!-- Bottom Action Bar -->
+    <div class="bottom-bar">
+        <div>
+            <div style="font-size: 0.8rem; color: #888;">Total Pembayaran</div>
+            <div class="bottom-price" id="totalPrice">Rp 0</div>
+        </div>
+        <button class="btn-beli" id="btnBeli">Beli Sekarang</button>
+    </div>
+
+    <!-- Firebase Script untuk halaman order -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCZ9JmZRYU3i9_mrYsZPj7nr566wR7VQ78",
+            authDomain: "veltra-store-694e1.firebaseapp.com",
+            projectId: "veltra-store-694e1",
+            storageBucket: "veltra-store-694e1.firebasestorage.app",
+            messagingSenderId: "601493638172",
+            appId: "1:601493638172:web:12d9153c605d9b6e9863d9"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Ambil nama aplikasi dari URL (misal: order.html?app=Netflix)
+        const params = new URLSearchParams(window.location.search);
+        const targetApp = params.get('app');
+
+        let selectedVariant = "";
+        let selectedPrice = "";
+        let selectedPay = "QRIS";
+
+        if(!targetApp) {
+            alert("Aplikasi tidak ditemukan!");
+            window.location.href = "produk.html";
+        } else {
+            document.getElementById('appName').innerText = targetApp;
+            loadAppDetails();
+        }
+
+        async function loadAppDetails() {
+            const docRef = doc(db, "toko", "katalog");
+            const snap = await getDoc(docRef);
+            
+            if (snap.exists()) {
+                const dataProduk = snap.data().dataProduk || {};
+                const dataLogo = snap.data().dataLogo || {};
+                
+                if(dataLogo[targetApp]) document.getElementById('appLogo').src = dataLogo[targetApp];
+
+                const varians = dataProduk[targetApp];
+                const grid = document.getElementById('variantGrid');
+                grid.innerHTML = '';
+
+                if(varians && varians.length > 0) {
+                    varians.forEach((v, index) => {
+                        const div = document.createElement('div');
+                        // Otomatis pilih yang pertama
+                        div.className = index === 0 ? 'variant-card active' : 'variant-card';
+                        div.innerHTML = `
+                            <span class="variant-name">${v.nama}</span>
+                            <span class="variant-price">${v.harga}</span>
+                        `;
+                        
+                        if(index === 0) {
+                            selectedVariant = v.nama;
+                            selectedPrice = v.harga;
+                            document.getElementById('totalPrice').innerText = v.harga;
+                        }
+
+                        // Event klik varian
+                        div.onclick = () => {
+                            document.querySelectorAll('.variant-card').forEach(el => el.classList.remove('active'));
+                            div.classList.add('active');
+                            selectedVariant = v.nama;
+                            selectedPrice = v.harga;
+                            document.getElementById('totalPrice').innerText = v.harga;
+                        };
+                        grid.appendChild(div);
+                    });
+                }
+            }
+        }
+
+        // Event klik pembayaran
+        document.querySelectorAll('.pay-card').forEach(card => {
+            card.onclick = () => {
+                document.querySelectorAll('.pay-card').forEach(el => el.classList.remove('active'));
+                card.classList.add('active');
+                selectedPay = card.getAttribute('data-pay');
+            };
+        });
+
+        // Event Tombol Beli WA Baru
+        document.getElementById('btnBeli').onclick = () => {
+            if(!selectedVariant) return alert("Pilih paket dulu!");
+            
+            const pesan = `Halo Veltrastore! 👋\nSaya mau order layanan premium dengan detail berikut:\n\n📱 *Produk:* ${targetApp}\n⏱️ *Varian:* ${selectedVariant}\n🏷️ *Harga:* ${selectedPrice}\n💳 *Pembayaran:* ${selectedPay}\n\nMohon instruksi pembayarannya ya, Kak!`;
+            
+            // Mengarah ke nomor WA yang baru: 083807394983
+            window.open(`https://wa.me/6283807394983?text=${encodeURIComponent(pesan)}`, '_blank');
+        };
+    </script>
+</body>
+</html>
