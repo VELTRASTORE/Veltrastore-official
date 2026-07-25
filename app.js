@@ -136,21 +136,35 @@ async function fetchDatabase() {
                 Object.keys(dataProduk).sort().forEach(namaApp => {
                     const linkLogo = dataLogo[namaApp] || 'https://via.placeholder.com/150';
                     
+                    // Mengambil harga dari varian pertama untuk tulisan "Mulai dari..."
+                    let hargaMulai = "Rp -";
+                    if(dataProduk[namaApp] && dataProduk[namaApp].length > 0) {
+                        hargaMulai = dataProduk[namaApp][0].harga; 
+                    }
+                    
                     const card = document.createElement('div');
                     card.className = 'product-card'; 
                     card.setAttribute('data-name', namaApp);
                     card.style.animation = "fadeInUp 0.5s ease forwards"; 
                     
-                    // BINGKAI LOGO DENGAN KUNCI MATI (!important)
+                    // KODE CARD BARU: Tinggi seragam, harga muncul, tombol rata bawah
                     card.innerHTML = `
-                        <div style="background:rgba(255,255,255,0.05); border: 1px solid rgba(255,42,117,0.3); border-radius:15px; padding:15px; text-align:center; height:100%; display:flex; flex-direction:column; justify-content:space-between; box-shadow: 0 4px 10px rgba(0,0,0,0.5);">
+                        <div style="background:rgba(255,255,255,0.05); border: 1px solid rgba(255,42,117,0.3); border-radius:15px; padding:15px; text-align:center; height:100%; min-height: 250px; display:flex; flex-direction:column; justify-content:space-between; box-shadow: 0 4px 10px rgba(0,0,0,0.5); box-sizing: border-box;">
                             
-                            <div style="width: 75px !important; height: 75px !important; min-width: 75px !important; min-height: 75px !important; margin: 0 auto 15px auto !important; background: #fff !important; border-radius: 16px !important; padding: 6px !important; border: 2px solid #ff2a75 !important; display: flex !important; align-items: center !important; justify-content: center !important; overflow: hidden !important;">
-                                <img src="${linkLogo}" alt="${namaApp}" style="width: 100% !important; height: 100% !important; max-width: 100% !important; max-height: 100% !important; object-fit: contain !important; border-radius: 8px !important;">
+                            <!-- Bagian Atas: Logo & Nama (Akan mendorong tombol ke bawah) -->
+                            <div style="display: flex; flex-direction: column; align-items: center; flex-grow: 1;">
+                                <div style="width: 75px !important; height: 75px !important; min-width: 75px !important; min-height: 75px !important; margin: 0 auto 15px auto !important; background: #fff !important; border-radius: 16px !important; padding: 6px !important; border: 2px solid #ff2a75 !important; display: flex !important; align-items: center !important; justify-content: center !important; overflow: hidden !important;">
+                                    <img src="${linkLogo}" alt="${namaApp}" style="width: 100% !important; height: 100% !important; max-width: 100% !important; max-height: 100% !important; object-fit: contain !important; border-radius: 8px !important;">
+                                </div>
+                                <h3 style="font-size:1.1rem; color:#fff; font-weight:bold; margin-bottom:5px; line-height: 1.3;">${namaApp}</h3>
                             </div>
 
-                            <h3 style="font-size:1.1rem; color:#fff; font-weight:bold; margin-bottom:15px;">${namaApp}</h3>
-                            <button class="btn-pilih" data-product="${namaApp}" style="background:#ff2a75; color:#fff; border:none; padding:10px; border-radius:8px; font-weight:bold; cursor:pointer; width:100%;">Pilih Paket</button>
+                            <!-- Bagian Bawah: Harga & Tombol (Selalu rata di bawah) -->
+                            <div style="margin-top: auto; padding-top: 10px;">
+                                <p style="font-size: 0.8rem; color: #b3b3b3; margin: 0 0 10px 0;">Mulai <strong style="color: #2ed573; font-size: 0.95rem;">${hargaMulai}</strong></p>
+                                <button class="btn-pilih" data-product="${namaApp}" style="background:#ff2a75; color:#fff; border:none; padding:10px; border-radius:8px; font-weight:bold; cursor:pointer; width:100%;">Pilih Paket</button>
+                            </div>
+
                         </div>
                     `;
                     katalogContainer.appendChild(card);
