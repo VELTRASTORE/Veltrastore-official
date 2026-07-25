@@ -1,5 +1,14 @@
 <!DOCTYPE html>
 <html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Katalog Produk - Veltrastoreid</title>
+    <!-- Font Modern -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     <style>
         /* PAKSA JADI 3 KOLOM */
         #katalogProduk {
@@ -11,6 +20,53 @@
         /* Agar di 3 kolom ukurannya tetap proporsional */
         .product-card { padding: 10px !important; }
         .product-card h3 { font-size: 0.85rem !important; }
+
+        /* PERBAIKAN CSS MENU GARIS 3 (DROPDOWN COMPACT) */
+        .nav-dropdown-compact { 
+            position: absolute; 
+            top: 70px; 
+            right: 20px; 
+            background: #1a0004; 
+            border: 1px solid #ff2a75; 
+            border-radius: 12px; 
+            padding: 10px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 8px; 
+            opacity: 0; 
+            visibility: hidden; 
+            transform: translateY(-10px); 
+            transition: 0.3s; 
+            z-index: 99999; 
+            box-shadow: 0 4px 20px rgba(255,42,117,0.4); 
+            min-width: 160px; 
+        }
+        .nav-dropdown-compact.open { 
+            opacity: 1; 
+            visibility: visible; 
+            transform: translateY(0); 
+        }
+        .nav-dropdown-compact a { 
+            display: flex !important; 
+            align-items: center; 
+            gap: 8px; 
+            color: #fff !important; 
+            text-decoration: none; 
+            padding: 10px 15px; 
+            border-radius: 8px; 
+            font-size: 0.9rem; 
+            transition: 0.2s; 
+            font-weight: 600; 
+            background: rgba(255,255,255,0.03); 
+        }
+        .nav-dropdown-compact a:hover { 
+            background: #ff2a75 !important; 
+        }
+        .nav-dropdown-compact svg { 
+            width: 16px; 
+            height: 16px; 
+            fill: #fff; 
+        }
 
         /* CSS FOOTER UNTUK HALAMAN PRODUK */
         .footer-new { margin-top: 40px; border-top: 1px solid rgba(255,42,117,0.3); padding: 30px 20px; font-size: 0.85rem; color: #aaa; line-height: 1.6; background: #0d0002; width: 100%; box-sizing: border-box; }
@@ -25,26 +81,18 @@
         .pay-logos img { height: 22px; object-fit: contain; background: transparent; filter: drop-shadow(0px 0px 2px rgba(255,255,255,0.3)); }
         .btn-wa { display: inline-block; background: #25D366; color: #fff !important; padding: 8px 18px; border-radius: 20px; text-decoration: none; font-weight: bold; font-size: 0.85rem; margin-top: 5px; transition: 0.3s; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); }
     </style>
-    <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Katalog Produk - Veltrastoreid</title>
-    <!-- Font Modern -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
 </head>
 <body class="produk-page">
 
     <!-- NAVBAR -->
-    <nav class="navbar">
+    <nav class="navbar" style="position: relative; z-index: 9999;">
         <div class="nav-container">
             <a href="index.html" class="logo">veltra<span>storeid</span></a>
             <div class="hamburger click-target" id="hamburgerMenu">
                 <span></span><span></span><span></span>
             </div>
             <div class="nav-dropdown-compact" id="navDropdown">
+                <a href="index.html" class="click-target">🏠 Beranda</a>
                 <a href="https://wa.me/6285166497792" target="_blank" class="btn-compact wa click-target">
                     <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.457L0 24zm6.59-4.846c1.6.95 3.498 1.451 5.438 1.453 5.494 0 9.961-4.47 9.964-9.97.001-2.665-1.033-5.171-2.913-7.054C17.256 1.749 14.748 .713 12.004.713 6.507.713 2.04 5.183 2.038 10.684c-.001 1.992.521 3.941 1.512 5.669l-.976 3.564 3.654-.959zm11.751-7.7c-.295-.149-1.748-.865-2.013-.962-.266-.096-.459-.653.149-.193.295-.749.962-.918 1.156-.17.193-.339.216-.634.068-.295-.149-1.247-.459-2.376-1.466-.879-.785-1.472-1.753-1.644-2.049-.173-.296-.018-.456.13-.603.133-.132.295-.346.443-.519.147-.173.197-.296.296-.494.099-.198.05-.371-.025-.519-.074-.149-.653-1.574-.894-2.152-.235-.565-.475-.489-.653-.498-.168-.008-.362-.01-.555-.01-.193 0-.507.072-.772.361-.266.295-1.014.992-1.014 2.422 0 1.43 1.039 2.816 1.185 3.014.147.198 2.046 3.125 4.957 4.381.692.299 1.233.478 1.654.612.697.222 1.332.19 1.833.115.559-.083 1.748-.713 1.992-1.402.244-.689.244-1.279.172-1.402-.072-.123-.266-.197-.561-.346z"/></svg>
                     WhatsApp
@@ -58,7 +106,6 @@
     </nav>
 
     <!-- HEADER KATALOG -->
-        <!-- SLIDER / BANNER PROMO (Persiapan untuk Tahap 2) -->
     <div style="width: 100%; max-width: 800px; margin: 20px auto; padding: 0 15px; box-sizing: border-box;">
         <div style="width: 100%; height: 150px; background: linear-gradient(45deg, #ff2a75, #ff7b54); border-radius: 15px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.2rem; box-shadow: 0 4px 15px rgba(255, 42, 117, 0.4);">
             ✨ Space Banner Event & Promo ✨
@@ -78,9 +125,6 @@
         
         <div class="category-pills">
             <button class="pill active click-target" data-filter="all">Semua</button>
-            <!-- Catatan: Tombol kategori (Streaming, Musik, dll) untuk sementara mungkin menampilkan semua produk 
-                 karena sekarang produknya diambil dinamis dari database. 
-                 Nanti kalau mau difungsikan lagi, kita tinggal tambah fitur "Kategori" di admin.html ya! -->
             <button class="pill click-target" data-filter="streaming">Streaming</button>
             <button class="pill click-target" data-filter="musik">Musik</button>
             <button class="pill click-target" data-filter="editing">Editing</button>
@@ -89,17 +133,14 @@
         </div>
     </section>
 
-    <!-- PRODUCT GRID (OTOMATIS DARI APP.JS) -->
+    <!-- PRODUCT GRID -->
     <section class="product-container fade-in delay-2">
         <div class="product-grid" id="katalogProduk">
-            <!-- Ini area yang akan diisi oleh kotak-kotak produk dari database -->
             <h3 style="text-align:center; color:#ff2a75; grid-column: 1 / -1; margin-top: 50px;">
                 ⏳ Memuat katalog dari database...
             </h3>
         </div>
     </section>
-
-    
 
     <!-- POP-UP MODAL CHECKOUT -->
     <div class="modal-overlay" id="orderModal">
@@ -110,7 +151,6 @@
             </div>
             
             <div class="modal-body">
-                <!-- KOTAK INFO CARA ORDER BARU -->
                 <div class="info-order-box">
                     <h4>💡 Cara Order :</h4>
                     <ol>
@@ -121,41 +161,34 @@
                     </ol>
                 </div>
 
-                <!-- Varian (Dimasukkan otomatis via JS) -->
                 <div class="form-group">
                     <label>1. Pilih Varian Paket</label>
                     <div class="variant-list" id="variantList"></div>
                 </div>
 
-                <!-- Metode Pembayaran -->
                 <div class="form-group">
                     <label>2. Metode Pembayaran</label>
                     <div class="payment-grid">
-                        
                         <label class="payment-card click-target">
                             <input type="radio" name="payment" value="QRIS" checked>
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHgsGAEqwXk9sE66NnDCcVNEGg8lj5ohF0WPdJnf5ydecGcqSrcNy7QWA&s" alt="QRIS">
                             <span class="pay-name">QRIS</span>
                         </label>
-                        
                         <label class="payment-card click-target">
                             <input type="radio" name="payment" value="DANA">
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFlvqPjhdqYBW1WF2CyfiI8zm1YhZ8lcQkwLcHMfDp2g&s" alt="DANA">
                             <span class="pay-name">DANA</span>
                         </label>
-                        
                         <label class="payment-card click-target">
                             <input type="radio" name="payment" value="OVO">
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFPl-cxFU2OT1xs3dW6sV0oYUqFblZ1f8RGKAHxJQWfA&s=10" alt="OVO">
                             <span class="pay-name">OVO</span>
                         </label>
-                        
                         <label class="payment-card click-target">
                             <input type="radio" name="payment" value="GOPAY">
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRT8imES7RT_Tu1zQaf9QsuZR74g4oBwY4gD-0IAYVW6A&s" alt="GOPAY">
                             <span class="pay-name">GoPay</span>
                         </label>
-
                         <label class="payment-card click-target">
                             <input type="radio" name="payment" value="SEABANK">
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq5FyxcoFasD3Wm8wcQkvImEs3jll_1pSI_ljTV8-CDQ&s=10" alt="SEABANK">
@@ -171,8 +204,32 @@
         </div>
     </div>
 
-    <!-- PANGGIL APP.JS (Wajib type="module") -->
+    <!-- SCRIPT JAVASCRIPT UNTUK KLIK MENU GARIS 3 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.getElementById('hamburgerMenu');
+            const navDropdown = document.getElementById('navDropdown');
+            
+            if(hamburger && navDropdown) {
+                hamburger.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    hamburger.classList.toggle('active');
+                    navDropdown.classList.toggle('open');
+                });
+                
+                document.addEventListener('click', (e) => {
+                    if (!hamburger.contains(e.target) && !navDropdown.contains(e.target)) {
+                        hamburger.classList.remove('active');
+                        navDropdown.classList.remove('open');
+                    }
+                });
+            }
+        });
+    </script>
+
+    <!-- PANGGIL APP.JS -->
     <script type="module" src="app.js?v=99"></script>
+
     <!-- FOOTER CUSTOM VELTRA -->
     <div class="footer-new">
         <div style="max-width: 800px; margin: 0 auto;">
@@ -187,21 +244,20 @@
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrWA2TDsmzw-MIiHmKSJafAlsMi0irM5WjpCcnIHqkpQ&s" alt="OVO">
             </div>
 
-
             <div style="display: flex; justify-content: space-between; flex-wrap: wrap; margin-top: 20px;">
                 <div style="flex: 1; min-width: 150px;">
                     <h4>Informasi</h4>
                     <ul class="footer-links">
-                        <li><a href="#">Tentang Kami</a></li>
-                        <li><a href="#">Syarat & Ketentuan</a></li>
-                        <li><a href="#">Kebijakan Privasi</a></li>
-                        <li><a href="#">Cara Pemesanan</a></li>
+                        <li><a href="tentang.html">Tentang Kami</a></li>
+                        <li><a href="syarat.html">Syarat & Ketentuan</a></li>
+                        <li><a href="privasi.html">Kebijakan Privasi</a></li>
+                        <li><a href="pemesanan.html">Cara Pemesanan</a></li>
                     </ul>
                 </div>
                 
                 <div style="flex: 1; min-width: 150px;">
                     <h4>Hubungi Kami</h4>
-                    <a href="https://wa.me/6283807394983" target="_blank" class="btn-wa">💬 Chat WhatsApp</a>
+                    <a href="https://wa.me/6285166497792" target="_blank" class="btn-wa">💬 Chat WhatsApp</a>
                 </div>
             </div>
             
