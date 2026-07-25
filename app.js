@@ -17,6 +17,8 @@ let dataProduk = {};
 let dataLogo = {};
 
 document.addEventListener('DOMContentLoaded', () => {
+    
+    // Fitur Search
     const searchInput = document.getElementById('searchInput');
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
@@ -29,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
     fetchDatabase();
 });
 
@@ -47,23 +50,28 @@ async function fetchDatabase() {
                 
                 Object.keys(dataProduk).sort().forEach(namaApp => {
                     const linkLogo = dataLogo[namaApp] || 'https://via.placeholder.com/150';
+                    
                     const card = document.createElement('div');
                     card.className = 'product-card'; 
                     card.setAttribute('data-name', namaApp);
                     
-                    // PERBAIKAN LOGO: object-fit: cover dan hapus background putih
+                    // DESAIN CARD BARU: Icon Full Width tanpa background putih
                     card.innerHTML = `
-                        <div style="background:rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius:16px; padding:15px; text-align:center; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; cursor:pointer; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.3);"
-                        onmouseover="this.style.borderColor='#ff2a75'" onmouseout="this.style.borderColor='rgba(255,255,255,0.1)'">
+                        <div style="background:rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius:16px; text-align:center; height:100%; display:flex; flex-direction:column; cursor:pointer; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.3); overflow:hidden;"
+                        onmouseover="this.style.borderColor='#ff2a75'; this.style.transform='translateY(-3px)';" 
+                        onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'; this.style.transform='translateY(0)';">
                             
-                            <div style="width: 75px; height: 75px; border-radius: 18px; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(255, 42, 117, 0.2);">
-                                <img src="${linkLogo}" alt="${namaApp}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 18px;">
-                            </div>
+                            <!-- GAMBAR FULL CARD MENGKOTAK -->
+                            <img src="${linkLogo}" alt="${namaApp}" style="width: 100%; aspect-ratio: 1/1; object-fit: cover; border-bottom: 2px solid rgba(255,42,117,0.5);">
 
-                            <h3 style="font-size:1.05rem; color:#fff; font-weight:600; margin:0;">${namaApp}</h3>
+                            <!-- NAMA APLIKASI DI BAWAHNYA -->
+                            <div style="padding: 12px 10px; flex-grow: 1; display: flex; align-items: center; justify-content: center;">
+                                <h3 style="font-size:1rem; color:#fff; font-weight:700; margin:0; line-height: 1.3;">${namaApp}</h3>
+                            </div>
                         </div>
                     `;
 
+                    // LOGIKA BARU: Jika Card diklik, Pindah ke halaman Order!
                     card.onclick = () => {
                         window.location.href = `order.html?app=${encodeURIComponent(namaApp)}`;
                     };
