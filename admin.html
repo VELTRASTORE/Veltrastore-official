@@ -22,7 +22,8 @@
         .btn-small { width: auto; padding: 10px 15px; font-size: 0.9rem; margin: 0; border-radius: 8px;}
         .btn-logout { background: #555; margin-bottom: 20px; }
 
-        select, input, textarea { width: 100%; padding: 12px; margin-top: 5px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ff2a75; background: #000; color: white; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif;}
+        select, input, textarea { width: 100%; padding: 12px; margin-top: 5px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ff2a75; background: #000; color: white; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif;}
+        .banner-row { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; background: rgba(0,0,0,0.4); padding: 10px; border-radius: 10px; border: 1px solid rgba(255,42,117,0.2); }
         .varian-box { background: rgba(0,0,0,0.5); padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 1px dashed #ff2a75; }
         .varian-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         label { font-size: 0.85rem; color: #b3b3b3; font-weight: 600; }
@@ -53,17 +54,19 @@
             <h2>⚙️ Admin Veltrastore</h2>
             <button id="btnLogout" class="btn-logout">🚪 Keluar (Logout)</button>
 
-            <!-- KOTAK: KELOLA BANNER & HOT APPS -->
+            <!-- KOTAK: KELOLA MULTIPLE BANNER & HOT APPS -->
             <div class="card" style="border-color: #2ed573;">
-                <h3 style="color: #2ed573; margin-top:0;">📢 Pengaturan Halaman Depan & Katalog</h3>
-                
-                <label>🖼️ Link Foto Banner Event (URL Gambar):</label>
-                <input type="text" id="inputBannerUrl" placeholder="https://... (Paste link foto banner)">
-                <button id="btnSimpanBanner" class="btn-success btn-small" style="margin-bottom: 15px;">Simpan Banner URL</button>
+                <h3 style="color: #2ed573; margin-top:0;">📢 Pengaturan Banner Event (1, 2, 3, dst.)</h3>
+                <div id="bannerContainerAdmin">
+                    <!-- Baris banner akan dimuat otomatis lewat JS -->
+                </div>
+                <button id="btnAddBannerRow" class="btn-outline" style="margin-bottom: 15px;">+ Tambah Banner Baru</button>
+                <button id="btnSimpanBanners" class="btn-success">💾 Simpan Semua Banner</button>
 
-                <hr>
+                <hr style="margin: 25px 0;">
 
-                <label>🔥 Hot Apps (Cukup ketik nama aplikasinya, pisahkan dengan koma):</label>
+                <h3 style="color: #2ed573; margin-top:0;">🔥 Hot Apps (Animasi Beranda)</h3>
+                <label>Nama aplikasi berurutan, pisahkan dengan koma:</label>
                 <textarea id="inputHotApps" rows="3" placeholder="Netflix Premium, Spotify Premium, Canva Pro"></textarea>
                 <button id="btnSimpanHotApps" class="btn-success btn-small">Simpan Hot Apps</button>
             </div>
@@ -82,7 +85,6 @@
                 <select id="selectProduk"></select>
 
                 <div id="editorArea" style="display:none;">
-                    
                     <div style="background: rgba(46, 213, 115, 0.1); padding: 15px; border-radius: 10px; border: 1px solid #2ed573; margin-bottom: 20px;">
                         <label>✏️ Ubah Nama Aplikasi:</label>
                         <div class="flex-row" style="margin-top: 5px;">
@@ -161,21 +163,64 @@
             signOut(auth).then(() => alert("Keluar berhasil."));
         });
 
+        // --- MANAJEMEN MULTIPLE BANNER ---
+        const bannerContainerAdmin = document.getElementById('bannerContainerAdmin');
+
+        function renderBannerInputs(bannersArray = []) {
+            bannerContainerAdmin.innerHTML = '';
+            if(bannersArray.length === 0) bannersArray = [""]; // Minimal 1 baris kosong
+            
+            bannersArray.forEach((url, index) => {
+                const div = document.createElement('div');
+                div.className = 'banner-row';
+                div.innerHTML = `
+                    <div style="flex-grow: 1;">
+                        <label>Banner ${index + 1}:</label>
+                        <input type="text" class="banner-input" value="${url}" placeholder="https://... (Link Foto Banner)" style="margin-bottom:0;">
+                    </div>
+                    <button type="button" class="btn-danger btn-small btn-hapus-banner" style="margin-top:18px;">Hapus</button>
+                `;
+                bannerContainerAdmin.appendChild(div);
+            });
+        }
+
+        document.getElementById('btnAddBannerRow').addEventListener('click', () => {
+            const inputs = document.querySelectorAll('.banner-input');
+            let currentUrls = Array.from(inputs).map(input => input.value);
+            currentUrls.push("");
+            renderBannerInputs(currentUrls);
+        });
+
+        bannerContainerAdmin.addEventListener('click', (e) => {
+            if(e.target.classList.contains('btn-hapus-banner')) {
+                const rows = bannerContainerAdmin.querySelectorAll('.banner-row');
+                if(rows.length <= 1) return alert("Minimal harus ada 1 kolom banner!");
+                e.target.closest('.banner-row').remove();
+                // Perbarui label nomor urut banner
+                document.querySelectorAll('.banner-row').forEach((row, idx) => {
+                    row.querySelector('label').innerText = `Banner ${idx + 1}:`;
+                });
+            }
+        });
+
         async function loadPengaturan() {
             try {
                 const snap = await getDoc(settingRef);
                 if(snap.exists()) {
                     const data = snap.data();
-                    if(data.bannerUrl) document.getElementById('inputBannerUrl').value = data.bannerUrl;
+                    renderBannerInputs(data.banners || []);
                     if(data.hotApps) document.getElementById('inputHotApps').value = data.hotApps.join(", ");
+                } else {
+                    renderBannerInputs([]);
                 }
-            } catch(e) {}
+            } catch(e) { renderBannerInputs([]); }
         }
 
-        document.getElementById('btnSimpanBanner').addEventListener('click', async () => {
-            const url = document.getElementById('inputBannerUrl').value;
-            await setDoc(settingRef, { bannerUrl: url }, { merge: true });
-            alert("✅ Banner URL berhasil diupdate!");
+        document.getElementById('btnSimpanBanners').addEventListener('click', async () => {
+            const inputs = document.querySelectorAll('.banner-input');
+            const bannersArray = Array.from(inputs).map(input => input.value.trim()).filter(url => url !== "");
+            await setDoc(settingRef, { banners: bannersArray }, { merge: true });
+            alert("✅ Semua Banner berhasil disimpan!");
         });
 
         document.getElementById('btnSimpanHotApps').addEventListener('click', async () => {
@@ -185,6 +230,7 @@
             alert("✅ Hot Apps berhasil diupdate!");
         });
 
+        // --- SISTEM KATALOG PRODUK ---
         async function loadData() {
             try {
                 const snap = await getDoc(docRef);
