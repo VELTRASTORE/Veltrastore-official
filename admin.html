@@ -22,7 +22,7 @@
         .btn-small { width: auto; padding: 10px 15px; font-size: 0.9rem; margin: 0; border-radius: 8px;}
         .btn-logout { background: #555; margin-bottom: 20px; }
 
-        select, input { width: 100%; padding: 12px; margin-top: 5px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ff2a75; background: #000; color: white; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif;}
+        select, input, textarea { width: 100%; padding: 12px; margin-top: 5px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ff2a75; background: #000; color: white; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif;}
         .varian-box { background: rgba(0,0,0,0.5); padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 1px dashed #ff2a75; }
         .varian-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         label { font-size: 0.85rem; color: #b3b3b3; font-weight: 600; }
@@ -54,6 +54,21 @@
         <div id="adminScreen">
             <h2>⚙️ Admin Veltrastore</h2>
             <button id="btnLogout" class="btn-logout">🚪 Keluar (Logout)</button>
+
+            <!-- KOTAK BARU: KELOLA BANNER & HOT APPS -->
+            <div class="card" style="border-color: #2ed573;">
+                <h3 style="color: #2ed573; margin-top:0;">📢 Pengaturan Halaman Depan & Katalog</h3>
+                
+                <label>Teks Banner Event (Di halaman Produk/Katalog):</label>
+                <input type="text" id="inputBannerText" placeholder="Contoh: ✨ Space Banner Event & Promo ✨">
+                <button id="btnSimpanBanner" class="btn-success btn-small" style="margin-bottom: 15px;">Simpan Banner</button>
+
+                <hr>
+
+                <label>Hot Apps (Nama aplikasi berurutan, pisahkan dengan koma untuk animasi beranda):</label>
+                <textarea id="inputHotApps" rows="3" placeholder="Netflix Premium, Spotify Premium, Canva Pro, YouTube Premium, CapCut Pro"></textarea>
+                <button id="btnSimpanHotApps" class="btn-success btn-small">Simpan Hot Apps</button>
+            </div>
 
             <!-- KOTAK 1: TAMBAH APLIKASI -->
             <div class="card" id="addCard">
@@ -121,6 +136,7 @@
         const db = getFirestore(app);
         const auth = getAuth(app);
         const docRef = doc(db, "toko", "katalog");
+        const settingRef = doc(db, "toko", "pengaturan");
 
         let currentData = {};
         let currentLogo = {};
@@ -134,6 +150,7 @@
                 loginScreen.style.display = 'none';
                 adminScreen.style.display = 'block';
                 loadData(); 
+                loadPengaturan();
             } else {
                 loginScreen.style.display = 'flex';
                 adminScreen.style.display = 'none';
@@ -156,6 +173,31 @@
 
         document.getElementById('btnLogout').addEventListener('click', () => {
             signOut(auth).then(() => { alert("Kamu telah keluar dengan aman."); });
+        });
+
+        // --- LOAD & SIMPAN PENGATURAN (BANNER & HOT APPS) ---
+        async function loadPengaturan() {
+            try {
+                const snap = await getDoc(settingRef);
+                if(snap.exists()) {
+                    const data = snap.data();
+                    if(data.bannerText) document.getElementById('inputBannerText').value = data.bannerText;
+                    if(data.hotApps) document.getElementById('inputHotApps').value = data.hotApps.join(", ");
+                }
+            } catch(e) { console.log("Gagal memuat pengaturan"); }
+        }
+
+        document.getElementById('btnSimpanBanner').addEventListener('click', async () => {
+            const text = document.getElementById('inputBannerText').value;
+            await setDoc(settingRef, { bannerText: text }, { merge: true });
+            alert("✅ Banner berhasil diupdate!");
+        });
+
+        document.getElementById('btnSimpanHotApps').addEventListener('click', async () => {
+            const rawText = document.getElementById('inputHotApps').value;
+            const appsArray = rawText.split(",").map(item => item.trim()).filter(item => item !== "");
+            await setDoc(settingRef, { hotApps: appsArray }, { merge: true });
+            alert("✅ Hot Apps berhasil diupdate!");
         });
 
         // --- SISTEM DATABASE CMS ---
@@ -227,8 +269,6 @@
             if(!key) { editorArea.style.display = 'none'; return; }
 
             editorArea.style.display = 'block';
-            
-            // Set input nama baru dengan nama yang sekarang
             inputEditNama.value = key;
 
             const logoUrl = currentLogo[key] || '';
@@ -251,15 +291,11 @@
 
             if(confirm(`Yakin ingin mengubah nama dari "${oldName}" menjadi "${newName}"?`)) {
                 document.getElementById('btnEditNama').innerText = "⏳";
-                
-                // Sinkronkan input varian dan logo yang mungkin baru diketik sebelum ganti nama
                 syncInputs(oldName);
 
-                // Pindahkan data ke nama baru
                 currentData[newName] = currentData[oldName];
                 currentLogo[newName] = currentLogo[oldName];
 
-                // Hapus data lama
                 delete currentData[oldName];
                 delete currentLogo[oldName];
 
@@ -267,9 +303,9 @@
                     await setDoc(docRef, { dataProduk: currentData, dataLogo: currentLogo });
                     alert(`✅ Nama aplikasi berhasil diubah menjadi ${newName}!`);
                     
-                    renderSelect(); // Update dropdown
-                    document.getElementById('selectProduk').value = newName; // Pilih nama baru otomatis
-                    document.getElementById('selectProduk').dispatchEvent(new Event('change')); // Refresh kotak varian
+                    renderSelect();
+                    document.getElementById('selectProduk').value = newName;
+                    document.getElementById('selectProduk').dispatchEvent(new Event('change'));
                     document.getElementById('btnEditNama').innerText = "Simpan Nama";
                 } catch(e) {
                     alert("Gagal mengubah nama: " + e.message);
