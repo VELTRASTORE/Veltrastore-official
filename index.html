@@ -11,7 +11,7 @@
         
         /* HEADER & HAMBURGER MENU */
         .header-main { background: rgba(13, 0, 2, 0.8); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; width: 100%; box-sizing: border-box; z-index: 9999; backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,42,117,0.2); }
-        .logo-text { font-size: 1.5rem; font-weight: 800; color: #fff; margin: 0; }
+        .logo-text { font-size: 1.5rem; font-weight: 800; color: #fff; margin: 0; text-decoration: none; }
         .logo-text span { color: #ff2a75; }
         
         .hamburger { display: flex; flex-direction: column; gap: 6px; cursor: pointer; z-index: 10000; padding: 5px; }
@@ -43,7 +43,7 @@
         /* Ukuran Card, Padding & Ikon diperbesar */
         .hot-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,42,117,0.3); padding: 15px 25px; border-radius: 15px; display: flex; align-items: center; gap: 15px; margin-right: 20px; cursor: pointer; transition: 0.3s; }
         .hot-card:hover { border-color: #ff2a75; background: rgba(255,42,117,0.1); transform: scale(1.05); }
-        .hot-card img { width: 50px; height: 50px; border-radius: 12px; object-fit: cover; }
+        .hot-card img { width: 50px; height: 50px; border-radius: 12px; object-fit: cover; background: #222; }
         .hot-card span { font-weight: 700; font-size: 1.1rem; white-space: nowrap; }
 
         @keyframes scroll-left { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
@@ -85,7 +85,7 @@
 
     <!-- HEADER & MENU -->
     <div class="header-main">
-        <h1 class="logo-text">veltra<span>storeid</span></h1>
+        <a href="index.html" class="logo-text">veltra<span>storeid</span></a>
         
         <!-- Menu Hamburger -->
         <div class="hamburger" id="hamburgerMenu">
@@ -94,12 +94,12 @@
             <span></span>
         </div>
 
-        <!-- Dropdown Menu (SUDAH DIUPDATE) -->
+        <!-- Dropdown Menu -->
         <div class="nav-dropdown" id="navDropdown">
-            <a href="index.html"> Beranda</a>
+            <a href="index.html">Beranda</a>
             <a href="produk.html">Katalog Order</a>
-            <a href="https://www.instagram.com/veltrastoreid?igsh=MWxraDlvbjBsdXlrOA==" target="_blank"> Instagram</a>
-            <a href="https://wa.me/6285166497792" target="_blank"> WhatsApp</a>
+            <a href="https://www.instagram.com/veltrastoreid?igsh=MWxraDlvbjBsdXlrOA==" target="_blank">Instagram</a>
+            <a href="https://wa.me/6285166497792" target="_blank">WhatsApp</a>
         </div>
     </div>
 
@@ -110,20 +110,11 @@
         <a href="produk.html" class="btn-order"> Order </a>
     </div>
 
-    <!-- APLIKASI POPULER (DIPERBESAR & DINAIKKAN) -->
+    <!-- APLIKASI POPULER (DINAMIS DARI ADMIN) -->
     <div class="hot-apps-section scroll-reveal reveal-bottom">
-        <div class="hot-apps-title">🔥Sedang <span>Tren & Laris</span> Minggu Ini</div>
-        <div class="marquee-wrapper" onclick="window.location.href='produk.html'">
-            <div class="hot-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/799px-Netflix_2015_logo.svg.png" alt="Netflix"><span>Netflix Premium</span></div>
-            <div class="hot-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/1024px-Spotify_logo_without_text.svg.png" alt="Spotify"><span>Spotify Premium</span></div>
-            <div class="hot-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Canva_icon_2021.svg/600px-Canva_icon_2021.svg.png" alt="Canva"><span>Canva Pro</span></div>
-            <div class="hot-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/1024px-YouTube_full-color_icon_%282017%29.svg.png" alt="YouTube"><span>YouTube Premium</span></div>
-            <div class="hot-card"><img src="https://play-lh.googleusercontent.com/yFzESoR5Y5-nJ4dOQEqp-Q_Uj4QcEwz8CkkRofXN9U9Kif8t4Y7yW5f8fXl9Fp6M4w" alt="Capcut"><span>CapCut Pro</span></div>
-            <div class="hot-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/799px-Netflix_2015_logo.svg.png" alt="Netflix"><span>Netflix Premium</span></div>
-            <div class="hot-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/1024px-Spotify_logo_without_text.svg.png" alt="Spotify"><span>Spotify Premium</span></div>
-            <div class="hot-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Canva_icon_2021.svg/600px-Canva_icon_2021.svg.png" alt="Canva"><span>Canva Pro</span></div>
-            <div class="hot-card"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/1024px-YouTube_full-color_icon_%282017%29.svg.png" alt="YouTube"><span>YouTube Premium</span></div>
-            <div class="hot-card"><img src="https://play-lh.googleusercontent.com/yFzESoR5Y5-nJ4dOQEqp-Q_Uj4QcEwz8CkkRofXN9U9Kif8t4Y7yW5f8fXl9Fp6M4w" alt="Capcut"><span>CapCut Pro</span></div>
+        <div class="hot-apps-title">🔥 Sedang <span>Tren & Laris</span> Minggu Ini</div>
+        <div class="marquee-wrapper" id="hotAppsMarquee" onclick="window.location.href='produk.html'">
+            <!-- Otomatis dimuat dari Firebase Admin -->
         </div>
     </div>
 
@@ -196,7 +187,6 @@
                 
                 <div style="flex: 1; min-width: 150px;">
                     <h4>Hubungi Kami</h4>
-                    <!-- Link WhatsApp Footer disamakan dengan requestmu -->
                     <a href="https://wa.me/6285166497792" target="_blank" class="btn-wa">💬 Chat WhatsApp</a>
                 </div>
             </div>
@@ -205,10 +195,57 @@
         </div>
     </div>
 
+    <!-- SCRIPT LOAD HOT APPS DARI FIREBASE (AMBIL LOGO OTOMATIS) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCZ9JmZRYU3i9_mrYsZPj7nr566wR7VQ78",
+            authDomain: "veltra-store-694e1.firebaseapp.com",
+            projectId: "veltra-store-694e1",
+            storageBucket: "veltra-store-694e1.firebasestorage.app",
+            messagingSenderId: "601493638172",
+            appId: "1:601493638172:web:12d9153c605d9b6e9863d9"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        async function loadHotApps() {
+            try {
+                const settingSnap = await getDoc(doc(db, "toko", "pengaturan"));
+                const katalogSnap = await getDoc(doc(db, "toko", "katalog"));
+
+                if(settingSnap.exists() && katalogSnap.exists()) {
+                    const hotApps = settingSnap.data().hotApps || [];
+                    const dataLogo = katalogSnap.data().dataLogo || {};
+                    const marquee = document.getElementById('hotAppsMarquee');
+
+                    if(marquee && hotApps.length > 0) {
+                        let htmlContent = '';
+                        for(let i=0; i<2; i++) {
+                            hotApps.forEach(appName => {
+                                const trimmed = appName.trim();
+                                const logoUrl = dataLogo[trimmed] || 'https://via.placeholder.com/50';
+                                htmlContent += `
+                                    <div class="hot-card">
+                                        <img src="${logoUrl}" alt="${trimmed}">
+                                        <span>${trimmed}</span>
+                                    </div>
+                                `;
+                            });
+                        }
+                        marquee.innerHTML = htmlContent;
+                    }
+                }
+            } catch(e) {}
+        }
+        loadHotApps();
+    </script>
+
     <!-- SCRIPT ANIMASI & MENU GARIS 3 -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // LOGIKA MENU GARIS 3 (HAMBURGER)
             const hamburger = document.getElementById('hamburgerMenu');
             const navDropdown = document.getElementById('navDropdown');
             
@@ -227,7 +264,6 @@
                 });
             }
 
-            // LOGIKA ANIMASI SCROLL
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
