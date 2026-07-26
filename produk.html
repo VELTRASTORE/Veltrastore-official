@@ -7,147 +7,147 @@
     <!-- Font Modern -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* PAKSA JADI 3 KOLOM */
-        #katalogProduk {
-            display: grid !important;
-            grid-template-columns: repeat(3, 1fr) !important;
-            gap: 10px !important;
-        }
+        body { background-color: #0d0002; color: #fff; font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
+
+        /* NAVBAR FIXED DI ATAS (MENUTUP BIDANG KOSONG) */
+        .header-main { background: rgba(13, 0, 2, 0.9); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; left: 0; width: 100%; box-sizing: border-box; z-index: 9999; backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,42,117,0.2); }
+        .logo-text { font-size: 1.5rem; font-weight: 800; color: #fff; margin: 0; text-decoration: none; }
+        .logo-text span { color: #ff2a75; }
         
-        /* Agar di 3 kolom ukurannya tetap proporsional */
-        .product-card { padding: 10px !important; }
+        /* HAMBURGER MENU */
+        .hamburger { display: flex; flex-direction: column; gap: 6px; cursor: pointer; z-index: 10000; padding: 5px; }
+        .hamburger span { width: 28px; height: 3px; background: #fff; border-radius: 3px; transition: 0.3s; }
+        .hamburger.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+        /* MENU DROPDOWN DISAMAKAN DENGAN LANDING PAGE */
+        .nav-dropdown { position: fixed; top: 70px; right: 20px; background: #1a0004; border: 1px solid #ff2a75; border-radius: 12px; padding: 10px; display: flex; flex-direction: column; gap: 5px; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: 0.3s; z-index: 9998; box-shadow: 0 4px 20px rgba(255,42,117,0.4); min-width: 160px; }
+        .nav-dropdown.open { opacity: 1; visibility: visible; transform: translateY(0); }
+        .nav-dropdown a { color: #fff; text-decoration: none; padding: 10px 15px; border-radius: 8px; font-size: 0.95rem; transition: 0.2s; font-weight: 600; }
+        .nav-dropdown a:hover { background: #ff2a75; }
+
+        /* AREA KONTEN UTAMA (Diberi padding-top agar tidak tertutup header fixed) */
+        .main-content { padding: 90px 15px 40px 15px; max-width: 800px; margin: 0 auto; }
+        
+        /* BANNER PROMO EVENT */
+        .promo-banner { width: 100%; height: 120px; background: linear-gradient(45deg, #ff2a75, #ff7b54); border-radius: 15px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(255, 42, 117, 0.4); margin-bottom: 25px; }
+
+        .page-title { text-align: center; margin-bottom: 20px; }
+        .page-title h2 { color: #ff2a75; font-size: 1.6rem; margin: 0 0 5px 0; font-weight: 800; }
+        .page-title p { color: #aaa; font-size: 0.9rem; margin: 0; }
+
+        /* SEARCH & FILTER */
+        .search-box { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,42,117,0.3); border-radius: 25px; padding: 12px 20px; display: flex; align-items: center; margin-bottom: 15px; }
+        .search-box input { background: transparent; border: none; color: #fff; width: 100%; outline: none; font-size: 0.95rem; font-family: 'Plus Jakarta Sans', sans-serif;}
+        .search-box input::placeholder { color: #888; }
+
+        .category-list { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 20px; scrollbar-width: none; }
+        .category-list::-webkit-scrollbar { display: none; }
+        .cat-pill { background: rgba(255,255,255,0.05); color: #ccc; border: 1px solid rgba(255,255,255,0.1); padding: 8px 18px; border-radius: 20px; white-space: nowrap; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .cat-pill.active { background: #ff2a75; color: #fff; border-color: #ff2a75; }
+
+        /* PAKSA 3 KOLOM */
+        #katalogProduk { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 10px !important; }
         .product-card h3 { font-size: 0.85rem !important; }
 
-        /* PERBAIKAN CSS MENU GARIS 3 (DROPDOWN COMPACT) */
-        .nav-dropdown-compact { 
-            position: absolute; 
-            top: 70px; 
-            right: 20px; 
-            background: #1a0004; 
-            border: 1px solid #ff2a75; 
-            border-radius: 12px; 
-            padding: 10px; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 8px; 
-            opacity: 0; 
-            visibility: hidden; 
-            transform: translateY(-10px); 
-            transition: 0.3s; 
-            z-index: 99999; 
-            box-shadow: 0 4px 20px rgba(255,42,117,0.4); 
-            min-width: 160px; 
-        }
-        .nav-dropdown-compact.open { 
-            opacity: 1; 
-            visibility: visible; 
-            transform: translateY(0); 
-        }
-        .nav-dropdown-compact a { 
-            display: flex !important; 
-            align-items: center; 
-            gap: 8px; 
-            color: #fff !important; 
-            text-decoration: none; 
-            padding: 10px 15px; 
-            border-radius: 8px; 
-            font-size: 0.9rem; 
-            transition: 0.2s; 
-            font-weight: 600; 
-            background: rgba(255,255,255,0.03); 
-        }
-        .nav-dropdown-compact a:hover { 
-            background: #ff2a75 !important; 
-        }
-        .nav-dropdown-compact svg { 
-            width: 16px; 
-            height: 16px; 
-            fill: #fff; 
-        }
+        /* MODAL CHECKOUT */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; align-items: center; justify-content: center; z-index: 99999; backdrop-filter: blur(5px); }
+        .modal-content { background: #1a0004; border: 1px solid #ff2a75; border-radius: 16px; width: 90%; max-width: 450px; max-height: 90vh; overflow-y: auto; padding: 20px; box-sizing: border-box; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 15px; }
+        .modal-header h3 { margin: 0; font-size: 1.1rem; color: #fff; }
+        .close-modal { font-size: 1.5rem; cursor: pointer; color: #aaa; }
+        .info-order-box { background: rgba(255,42,117,0.1); border: 1px dashed #ff2a75; border-radius: 10px; padding: 12px; margin-bottom: 15px; font-size: 0.85rem; color: #ddd; }
+        .info-order-box h4 { margin: 0 0 5px 0; color: #ff2a75; }
+        .info-order-box ol { margin: 0; padding-left: 15px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 0.9rem; font-weight: bold; margin-bottom: 8px; color: #fff; }
+        .variant-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+        .variant-option { border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 10px; background: rgba(0,0,0,0.4); cursor: pointer; text-align: center; }
+        .variant-option.selected { border: 2px solid #ff2a75; background: rgba(255,42,117,0.15); }
+        .payment-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        .payment-card { border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 8px; text-align: center; background: rgba(0,0,0,0.4); cursor: pointer; display: flex; flex-direction: column; align-items: center; }
+        .payment-card.selected { border: 2px solid #2ed573; background: rgba(46,213,115,0.1); }
+        .payment-card img { width: 35px; height: 20px; object-fit: contain; margin-bottom: 5px; }
+        .pay-name { font-size: 0.75rem; font-weight: bold; color: #ccc; }
+        .btn-checkout { width: 100%; background: #ff2a75; color: white; border: none; padding: 12px; border-radius: 25px; font-weight: bold; font-size: 1rem; cursor: pointer; margin-top: 10px; }
 
-        /* CSS FOOTER UNTUK HALAMAN PRODUK */
-        .footer-new { margin-top: 40px; border-top: 1px solid rgba(255,42,117,0.3); padding: 30px 20px; font-size: 0.85rem; color: #aaa; line-height: 1.6; background: #0d0002; width: 100%; box-sizing: border-box; }
-        .footer-new h3 { color: #fff; font-size: 1.1rem; margin-bottom: 5px; }
-        .footer-new h4 { color: #fff; font-size: 0.95rem; margin-top: 20px; margin-bottom: 10px; }
-        .footer-new a { color: #2ed573; text-decoration: none; font-weight: bold; }
+        /* FOOTER LENGKAP */
+        .footer-new { margin-top: 40px; border-top: 1px solid rgba(255,42,117,0.3); padding: 40px 20px; font-size: 0.85rem; color: #aaa; line-height: 1.6; background: #080001; }
+        .footer-container { max-width: 800px; margin: 0 auto; }
+        .footer-new h3 { color: #fff; font-size: 1.2rem; margin-bottom: 10px; font-weight: 800; }
+        .footer-new h4 { color: #fff; font-size: 1rem; margin-top: 25px; margin-bottom: 15px; }
         .footer-links { list-style: none; padding: 0; margin: 0; }
-        .footer-links li { margin-bottom: 8px; }
-        .footer-links a { color: #aaa; font-weight: normal; transition: 0.2s; }
-        .footer-links a:hover { color: #ff2a75; }
-        .pay-logos { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 5px; align-items: center; }
-        .pay-logos img { height: 22px; object-fit: contain; background: transparent; filter: drop-shadow(0px 0px 2px rgba(255,255,255,0.3)); }
-        .btn-wa { display: inline-block; background: #25D366; color: #fff !important; padding: 8px 18px; border-radius: 20px; text-decoration: none; font-weight: bold; font-size: 0.85rem; margin-top: 5px; transition: 0.3s; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); }
+        .footer-links li { margin-bottom: 10px; }
+        .footer-links a { color: #aaa; text-decoration: none; transition: 0.2s; font-size: 0.9rem; }
+        .footer-links a:hover { color: #ff2a75; padding-left: 5px; }
+        .pay-logos { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 10px; align-items: center; }
+        .pay-logos img { height: 25px; object-fit: contain; filter: drop-shadow(0px 0px 2px rgba(255,255,255,0.2)); }
+        .btn-wa { display: inline-block; background: #25D366; color: #fff; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: bold; font-size: 0.9rem; margin-top: 5px; transition: 0.3s; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); }
+        .btn-wa:hover { background: #20bd5a; transform: translateY(-2px); }
     </style>
 </head>
 <body class="produk-page">
 
-    <!-- NAVBAR -->
-    <nav class="navbar" style="position: relative; z-index: 9999;">
-        <div class="nav-container">
-            <a href="index.html" class="logo">veltra<span>storeid</span></a>
-            <div class="hamburger click-target" id="hamburgerMenu">
-                <span></span><span></span><span></span>
-            </div>
-            <div class="nav-dropdown-compact" id="navDropdown">
-                <a href="index.html" class="click-target">🏠 Beranda</a>
-                <a href="https://wa.me/6285166497792" target="_blank" class="btn-compact wa click-target">
-                    <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.457L0 24zm6.59-4.846c1.6.95 3.498 1.451 5.438 1.453 5.494 0 9.961-4.47 9.964-9.97.001-2.665-1.033-5.171-2.913-7.054C17.256 1.749 14.748 .713 12.004.713 6.507.713 2.04 5.183 2.038 10.684c-.001 1.992.521 3.941 1.512 5.669l-.976 3.564 3.654-.959zm11.751-7.7c-.295-.149-1.748-.865-2.013-.962-.266-.096-.459-.653.149-.193.295-.749.962-.918 1.156-.17.193-.339.216-.634.068-.295-.149-1.247-.459-2.376-1.466-.879-.785-1.472-1.753-1.644-2.049-.173-.296-.018-.456.13-.603.133-.132.295-.346.443-.519.147-.173.197-.296.296-.494.099-.198.05-.371-.025-.519-.074-.149-.653-1.574-.894-2.152-.235-.565-.475-.489-.653-.498-.168-.008-.362-.01-.555-.01-.193 0-.507.072-.772.361-.266.295-1.014.992-1.014 2.422 0 1.43 1.039 2.816 1.185 3.014.147.198 2.046 3.125 4.957 4.381.692.299 1.233.478 1.654.612.697.222 1.332.19 1.833.115.559-.083 1.748-.713 1.992-1.402.244-.689.244-1.279.172-1.402-.072-.123-.266-.197-.561-.346z"/></svg>
-                    WhatsApp
-                </a>
-                <a href="https://www.instagram.com/veltrastoreid?igsh=MWxraDlvbjBsdXlrOA==" target="_blank" class="btn-compact ig click-target">
-                    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-                    Instagram
-                </a>
-            </div>
+    <!-- NAVBAR FIXED DI ATAS -->
+    <div class="header-main">
+        <a href="index.html" class="logo-text">veltra<span>storeid</span></a>
+        
+        <div class="hamburger" id="hamburgerMenu">
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
-    </nav>
 
-    <!-- HEADER KATALOG -->
-    <div style="width: 100%; max-width: 800px; margin: 20px auto; padding: 0 15px; box-sizing: border-box;">
-        <div style="width: 100%; height: 150px; background: linear-gradient(45deg, #ff2a75, #ff7b54); border-radius: 15px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.2rem; box-shadow: 0 4px 15px rgba(255, 42, 117, 0.4);">
-            ✨ Space Banner Event & Promo ✨
+        <!-- MENU BARIS 3 DISAMAKAN DENGAN LANDING PAGE -->
+        <div class="nav-dropdown" id="navDropdown">
+            <a href="index.html">🏠 Beranda</a>
+            <a href="produk.html">🛍️ Katalog Order</a>
+            <a href="https://www.instagram.com/veltrastoreid?igsh=MWxraDlvbjBsdXlrOA==" target="_blank">📸 Instagram</a>
+            <a href="https://wa.me/6285166497792" target="_blank">💬 WhatsApp</a>
         </div>
     </div>
-    <header class="katalog-header fade-in">
-        <h1>Katalog Order</h1>
-        <p>Pilih layanan premium favoritmu.</p>
-    </header>
 
-    <!-- SEARCH & FILTER -->
-    <section class="filter-section fade-in delay-1">
+    <!-- MAIN KATALOG -->
+    <div class="main-content">
+        <!-- BANNER PROMO EVENT -->
+        <div class="promo-banner">
+            ✨ Space Banner Event & Promo ✨
+        </div>
+
+        <div class="page-title">
+            <h2>KATALOG ORDER</h2>
+            <p>Pilih layanan premium favoritmu.</p>
+        </div>
+
         <div class="search-box">
-            <span class="search-icon">🔍</span>
+            <span style="margin-right: 10px;">🔍</span>
             <input type="text" id="searchInput" placeholder="Cari aplikasi...">
         </div>
-        
-        <div class="category-pills">
-            <button class="pill active click-target" data-filter="all">Semua</button>
-            <button class="pill click-target" data-filter="streaming">Streaming</button>
-            <button class="pill click-target" data-filter="musik">Musik</button>
-            <button class="pill click-target" data-filter="editing">Editing</button>
-            <button class="pill click-target" data-filter="ai">AI & Kerjaan</button>
-            <button class="pill click-target" data-filter="edukasi">Lainnya</button>
-        </div>
-    </section>
 
-    <!-- PRODUCT GRID -->
-    <section class="product-container fade-in delay-2">
-        <div class="product-grid" id="katalogProduk">
-            <h3 style="text-align:center; color:#ff2a75; grid-column: 1 / -1; margin-top: 50px;">
-                ⏳ Memuat katalog dari database...
-            </h3>
+        <div class="category-list">
+            <div class="cat-pill active">Semua</div>
+            <div class="cat-pill">Streaming</div>
+            <div class="cat-pill">Musik</div>
+            <div class="cat-pill">Editing</div>
+            <div class="cat-pill">AI & Kerjaan</div>
+            <div class="cat-pill">Lainnya</div>
         </div>
-    </section>
+
+        <!-- WADAH PRODUK 3 KOLOM -->
+        <div id="katalogProduk">
+            <p style="grid-column: 1 / -1; text-align: center; color: #888;">Memuat Katalog Veltra...</p>
+        </div>
+    </div>
 
     <!-- POP-UP MODAL CHECKOUT -->
     <div class="modal-overlay" id="orderModal">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 id="modalProductName">Nama Produk</h3>
-                <span class="close-modal click-target" id="closeModal">&times;</span>
+                <span class="close-modal" id="closeModal">&times;</span>
             </div>
             
             <div class="modal-body">
@@ -156,8 +156,8 @@
                     <ol>
                         <li>Pilih <b>Varian Paket</b> yang diinginkan.</li>
                         <li>Pilih <b>Metode Pembayaran</b>.</li>
-                        <li>Klik <b>Checkout </b>.</li>
-                        <li>Lalu <b>Nanti Di Arahkan Ke whatsapp</b></li>
+                        <li>Klik <b>Checkout</b>.</li>
+                        <li>Nanti diarahkan ke WhatsApp.</li>
                     </ol>
                 </div>
 
@@ -169,42 +169,73 @@
                 <div class="form-group">
                     <label>2. Metode Pembayaran</label>
                     <div class="payment-grid">
-                        <label class="payment-card click-target">
-                            <input type="radio" name="payment" value="QRIS" checked>
+                        <div class="payment-card selected" data-pay="QRIS">
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHgsGAEqwXk9sE66NnDCcVNEGg8lj5ohF0WPdJnf5ydecGcqSrcNy7QWA&s" alt="QRIS">
                             <span class="pay-name">QRIS</span>
-                        </label>
-                        <label class="payment-card click-target">
-                            <input type="radio" name="payment" value="DANA">
+                        </div>
+                        <div class="payment-card" data-pay="DANA">
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFlvqPjhdqYBW1WF2CyfiI8zm1YhZ8lcQkwLcHMfDp2g&s" alt="DANA">
                             <span class="pay-name">DANA</span>
-                        </label>
-                        <label class="payment-card click-target">
-                            <input type="radio" name="payment" value="OVO">
+                        </div>
+                        <div class="payment-card" data-pay="OVO">
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFPl-cxFU2OT1xs3dW6sV0oYUqFblZ1f8RGKAHxJQWfA&s=10" alt="OVO">
                             <span class="pay-name">OVO</span>
-                        </label>
-                        <label class="payment-card click-target">
-                            <input type="radio" name="payment" value="GOPAY">
+                        </div>
+                        <div class="payment-card" data-pay="GOPAY">
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRT8imES7RT_Tu1zQaf9QsuZR74g4oBwY4gD-0IAYVW6A&s" alt="GOPAY">
                             <span class="pay-name">GoPay</span>
-                        </label>
-                        <label class="payment-card click-target">
-                            <input type="radio" name="payment" value="SEABANK">
+                        </div>
+                        <div class="payment-card" data-pay="SEABANK">
                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq5FyxcoFasD3Wm8wcQkvImEs3jll_1pSI_ljTV8-CDQ&s=10" alt="SEABANK">
                             <span class="pay-name">SeaBank</span>
-                        </label>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="modal-footer">
-                <button class="btn-checkout click-target" id="btnCheckout">Checkout</button>
+                <button class="btn-checkout" id="btnCheckout">Checkout</button>
             </div>
         </div>
     </div>
 
-    <!-- SCRIPT JAVASCRIPT UNTUK KLIK MENU GARIS 3 -->
+    <!-- FOOTER LENGKAP -->
+    <div class="footer-new">
+        <div class="footer-container" style="max-width: 800px; margin: 0 auto;">
+            <h3>Veltra Store</h3>
+            <p style="max-width: 500px;">Platform penyedia layanan aplikasi premium, streaming, dan digital goods termurah dan terpercaya di Indonesia. Transaksi cepat, aman, dan bergaransi.</p>
+            
+            <h4>Pembayaran Aman</h4>
+            <div class="pay-logos">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHgsGAEqwXk9sE66NnDCcVNEGg8lj5ohF0WPdJnf5ydecGcqSrcNy7QWA&s" alt="QRIS">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCEJraL-KB8auJOyidvZHE7tc2nPseXKMooyq5Rq4FNw&s=10" alt="DANA">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRi7F1p9qY-Zhg3852uCQeBxhP5LPWfPgZHXgswNutA7Q&s=10" alt="GOPAY">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrWA2TDsmzw-MIiHmKSJafAlsMi0irM5WjpCcnIHqkpQ&s" alt="OVO">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSO8g2c0HbpIT0n7NYDyq4hyE2KQVe0lHNICs3vwvS6Ew&s=10" alt="SEABANK">
+            </div>
+
+            <div style="display: flex; justify-content: space-between; flex-wrap: wrap; margin-top: 20px;">
+                <div style="flex: 1; min-width: 150px;">
+                    <h4>Informasi</h4>
+                    <ul class="footer-links">
+                        <li><a href="tentang.html">Tentang Kami</a></li>
+                        <li><a href="syarat.html">Syarat & Ketentuan</a></li>
+                        <li><a href="privasi.html">Kebijakan Privasi</a></li>
+                        <li><a href="pemesanan.html">Cara Pemesanan</a></li>
+                    </ul>
+                </div>
+                
+                <div style="flex: 1; min-width: 150px;">
+                    <h4>Hubungi Kami</h4>
+                    <a href="https://wa.me/6285166497792" target="_blank" class="btn-wa">💬 Chat WhatsApp</a>
+                </div>
+            </div>
+            
+            <p style="text-align: center; margin-top: 50px; font-size: 0.8rem; color: #555;">© 2024 Veltra Store. All rights reserved.</p>
+        </div>
+    </div>
+
+    <!-- SCRIPT HAMBURGER -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const hamburger = document.getElementById('hamburgerMenu');
@@ -226,43 +257,8 @@
             }
         });
     </script>
-
+    
     <!-- PANGGIL APP.JS -->
-    <script type="module" src="app.js?v=99"></script>
-
-    <!-- FOOTER CUSTOM VELTRA -->
-    <div class="footer-new">
-        <div style="max-width: 800px; margin: 0 auto;">
-            <h3>Veltra Store</h3>
-            <p>Platform penyedia layanan aplikasi premium, streaming, dan digital goods termurah dan terpercaya di Indonesia. Transaksi cepat, aman, dan bergaransi.</p>
-            
-            <h4>Pembayaran Aman</h4>
-            <div class="pay-logos">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHgsGAEqwXk9sE66NnDCcVNEGg8lj5ohF0WPdJnf5ydecGcqSrcNy7QWA&s" alt="QRIS">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCEJraL-KB8auJOyidvZHE7tc2nPseXKMooyq5Rq4FNw&s=10" alt="DANA">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRi7F1p9qY-Zhg3852uCQeBxhP5LPWfPgZHXgswNutA7Q&s=10" alt="GOPAY">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrWA2TDsmzw-MIiHmKSJafAlsMi0irM5WjpCcnIHqkpQ&s" alt="OVO">
-            </div>
-
-            <div style="display: flex; justify-content: space-between; flex-wrap: wrap; margin-top: 20px;">
-                <div style="flex: 1; min-width: 150px;">
-                    <h4>Informasi</h4>
-                    <ul class="footer-links">
-                        <li><a href="tentang.html">Tentang Kami</a></li>
-                        <li><a href="syarat.html">Syarat & Ketentuan</a></li>
-                        <li><a href="privasi.html">Kebijakan Privasi</a></li>
-                        <li><a href="pemesanan.html">Cara Pemesanan</a></li>
-                    </ul>
-                </div>
-                
-                <div style="flex: 1; min-width: 150px;">
-                    <h4>Hubungi Kami</h4>
-                    <a href="https://wa.me/6285166497792" target="_blank" class="btn-wa">💬 Chat WhatsApp</a>
-                </div>
-            </div>
-            
-            <p style="text-align: center; margin-top: 40px; font-size: 0.75rem; color: #666;">© 2024 Veltra Store. All rights reserved.</p>
-        </div>
-    </div>
+    <script type="module" src="app.js?v=100"></script>
 </body>
 </html>
