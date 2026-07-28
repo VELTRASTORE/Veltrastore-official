@@ -229,7 +229,7 @@
 
         document.getElementById('btnBeli').onclick = () => {
             if(!selectedVariant) return alert("Pilih paket dulu!");
-            const pesan = `Halo Veltrastore! 👋\nNew Order:\n\n📱 *Produk:* ${targetApp}\n⏱️ *Varian:* ${selectedVariant}\n🏷️ *Harga:* ${selectedPrice}\n💳 *Pembayaran:* ${selectedPay}\n\nMohon instruksi pembayarannya ya, Kak!`;
+            const pesan = `New Order:\n\n📱 *Produk:* ${targetApp}\n⏱️ *Varian:* ${selectedVariant}\n🏷️ *Harga:* ${selectedPrice}\n💳 *Pembayaran:* ${selectedPay}\n\nWaiting ⌛`;
             window.open(`https://wa.me/6285166497792?text=${encodeURIComponent(pesan)}`, '_blank');
         };
     </script>
