@@ -76,6 +76,18 @@
                 <h3 style="color: #2ed573;">➕ Tambah Aplikasi Baru</h3>
                 <label>Nama Aplikasi:</label>
                 <input type="text" id="newAppName" placeholder="Contoh: Canva Pro">
+                
+                <!-- FITUR BARU: PILIH KATEGORI SAAT NAMBAH APLIKASI -->
+                <label>Pilih Kategori Layanan:</label>
+                <select id="newAppCategory">
+                    <option value="Layanan Streaming Film">Layanan Streaming Film</option>
+                    <option value="Layanan Streaming Musik">Layanan Streaming Musik</option>
+                    <option value="Layanan Editing & Desain">Layanan Editing & Desain</option>
+                    <option value="Layanan AI & Produktivitas">Layanan AI & Produktivitas</option>
+                    <option value="Layanan Keamanan Kontak">Layanan Keamanan Kontak</option>
+                    <option value="Layanan Premium" selected>Layanan Premium (Umum)</option>
+                </select>
+
                 <button id="btnAddApp" class="btn-success">Buat Aplikasi Baru</button>
             </div>
 
@@ -91,6 +103,19 @@
                             <input type="text" id="inputEditNama" placeholder="Nama baru..." style="margin-bottom: 0;">
                             <button id="btnEditNama" class="btn-success btn-small" style="margin-top: 0;">Simpan Nama</button>
                         </div>
+                    </div>
+                    
+                    <!-- FITUR BARU: UBAH KATEGORI APLIKASI YANG SUDAH ADA -->
+                    <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px;">
+                        <label>🏷️ Ubah Kategori Layanan:</label>
+                        <select id="editAppCategory">
+                            <option value="Layanan Streaming Film">Layanan Streaming Film</option>
+                            <option value="Layanan Streaming Musik">Layanan Streaming Musik</option>
+                            <option value="Layanan Editing & Desain">Layanan Editing & Desain</option>
+                            <option value="Layanan AI & Produktivitas">Layanan AI & Produktivitas</option>
+                            <option value="Layanan Keamanan Kontak">Layanan Keamanan Kontak</option>
+                            <option value="Layanan Premium">Layanan Premium (Umum)</option>
+                        </select>
                     </div>
 
                     <div style="background: rgba(255,42,117,0.1); padding: 15px; border-radius: 10px; border: 1px solid #ff2a75; margin-bottom: 20px;">
@@ -136,6 +161,7 @@
 
         let currentData = {};
         let currentLogo = {};
+        let currentKategori = {}; // Database untuk menyimpan kategori aplikasi
 
         const loginScreen = document.getElementById('loginScreen');
         const adminScreen = document.getElementById('adminScreen');
@@ -168,7 +194,7 @@
 
         function renderBannerInputs(bannersArray = []) {
             bannerContainerAdmin.innerHTML = '';
-            if(bannersArray.length === 0) bannersArray = [""]; // Minimal 1 baris kosong
+            if(bannersArray.length === 0) bannersArray = [""]; 
             
             bannersArray.forEach((url, index) => {
                 const div = document.createElement('div');
@@ -196,7 +222,6 @@
                 const rows = bannerContainerAdmin.querySelectorAll('.banner-row');
                 if(rows.length <= 1) return alert("Minimal harus ada 1 kolom banner!");
                 e.target.closest('.banner-row').remove();
-                // Perbarui label nomor urut banner
                 document.querySelectorAll('.banner-row').forEach((row, idx) => {
                     row.querySelector('label').innerText = `Banner ${idx + 1}:`;
                 });
@@ -237,6 +262,7 @@
                 if(snap.exists()) {
                     currentData = snap.data().dataProduk || {};
                     currentLogo = snap.data().dataLogo || {};
+                    currentKategori = snap.data().dataKategori || {}; // Ambil data kategori dari Firebase
                     renderSelect();
                 }
             } catch (e) {}
@@ -255,6 +281,7 @@
         function syncInputs(key) {
             if(!key || !currentData[key]) return;
             currentLogo[key] = document.getElementById('inputLogo').value;
+            currentKategori[key] = document.getElementById('editAppCategory').value; // Sinkronisasi kategori yang diedit
             currentData[key].forEach((varian, index) => {
                 const inputNama = document.getElementById(`nama_${key}_${index}`);
                 const inputHarga = document.getElementById(`harga_${key}_${index}`);
@@ -288,7 +315,12 @@
             const editorArea = document.getElementById('editorArea');
             if(!key) { editorArea.style.display = 'none'; return; }
             editorArea.style.display = 'block';
+            
             document.getElementById('inputEditNama').value = key;
+            
+            // Tampilkan kategori yang tersimpan (default 'Layanan Premium' jika kosong)
+            document.getElementById('editAppCategory').value = currentKategori[key] || "Layanan Premium"; 
+
             const logoUrl = currentLogo[key] || '';
             document.getElementById('inputLogo').value = logoUrl;
             document.getElementById('previewLogo').src = logoUrl ? logoUrl : 'https://via.placeholder.com/60';
@@ -301,11 +333,18 @@
             const newName = document.getElementById('inputEditNama').value.trim();
             if(!oldName || !newName || oldName === newName) return alert("Periksa kembali nama baru!");
             syncInputs(oldName);
+            
+            // Pindahkan semua data ke nama baru
             currentData[newName] = currentData[oldName];
             currentLogo[newName] = currentLogo[oldName];
+            currentKategori[newName] = currentKategori[oldName];
+
+            // Hapus nama lama
             delete currentData[oldName];
             delete currentLogo[oldName];
-            await setDoc(docRef, { dataProduk: currentData, dataLogo: currentLogo });
+            delete currentKategori[oldName];
+            
+            await setDoc(docRef, { dataProduk: currentData, dataLogo: currentLogo, dataKategori: currentKategori });
             alert(`✅ Nama diubah ke ${newName}`);
             renderSelect();
             document.getElementById('selectProduk').value = newName;
@@ -314,10 +353,14 @@
 
         document.getElementById('btnAddApp').addEventListener('click', async () => {
             const newName = document.getElementById('newAppName').value.trim();
+            const newCat = document.getElementById('newAppCategory').value; // Ambil kategori yang dipilih
             if(!newName || currentData[newName]) return alert("Nama tidak valid / sudah ada!");
+            
             currentData[newName] = [{nama: "Paket 1 Bulan", harga: "Rp 0"}];
             currentLogo[newName] = "";
-            await setDoc(docRef, { dataProduk: currentData, dataLogo: currentLogo });
+            currentKategori[newName] = newCat; // Simpan kategori baru
+            
+            await setDoc(docRef, { dataProduk: currentData, dataLogo: currentLogo, dataKategori: currentKategori });
             alert(`Aplikasi ${newName} ditambahkan!`);
             document.getElementById('newAppName').value = '';
             renderSelect();
@@ -328,9 +371,12 @@
         document.getElementById('btnHapusApp').addEventListener('click', async () => {
             const key = document.getElementById('selectProduk').value;
             if(!key || !confirm(`Hapus ${key}?`)) return;
+            
             delete currentData[key];
             delete currentLogo[key];
-            await setDoc(docRef, { dataProduk: currentData, dataLogo: currentLogo });
+            delete currentKategori[key]; // Hapus kategori juga
+            
+            await setDoc(docRef, { dataProduk: currentData, dataLogo: currentLogo, dataKategori: currentKategori });
             document.getElementById('editorArea').style.display = 'none';
             renderSelect();
         });
@@ -356,7 +402,7 @@
             const key = document.getElementById('selectProduk').value;
             if(!key) return;
             syncInputs(key);
-            await setDoc(docRef, { dataProduk: currentData, dataLogo: currentLogo });
+            await setDoc(docRef, { dataProduk: currentData, dataLogo: currentLogo, dataKategori: currentKategori });
             alert("✅ Perubahan disimpan!");
         });
     </script>
