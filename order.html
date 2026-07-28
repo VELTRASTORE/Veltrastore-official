@@ -58,7 +58,8 @@
         <img id="appLogo" src="https://via.placeholder.com/50" alt="Logo">
         <div>
             <h2 id="appName">Memuat...</h2>
-            <span style="font-size: 0.8rem; color: #aaa;">Layanan Premium</span>
+            <!-- Teks ini sekarang punya ID supaya gampang diubah otomatis oleh sistem -->
+            <span id="appCategoryText" style="font-size: 0.8rem; color: #aaa;">Layanan Premium</span>
         </div>
     </div>
 
@@ -113,12 +114,11 @@
                      <li><a href="privasi.html">Kebijakan Privasi</a></li>
                      <li><a href="pemesanan.html">Cara Pemesanan</a></li>
                     </ul>
-
                 </div>
                 
                 <div style="flex: 1; min-width: 150px;">
                     <h4>Hubungi Kami</h4>
-                    <a href="https://wa.me/6283807394983" target="_blank" class="btn-wa">💬 Chat WhatsApp</a>
+                    <a href="https://wa.me/6285166497792" target="_blank" class="btn-wa">💬 Chat WhatsApp</a>
                 </div>
             </div>
         </div>
@@ -148,8 +148,10 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
+        // Menangkap parameter dari URL yang dikirim oleh app.js
         const params = new URLSearchParams(window.location.search);
         const targetApp = params.get('app');
+        const targetCat = params.get('cat'); // Kategori Layanan
 
         let selectedVariant = "";
         let selectedPrice = "";
@@ -160,6 +162,12 @@
             window.location.href = "produk.html";
         } else {
             document.getElementById('appName').innerText = targetApp;
+            
+            // Ubah teks Kategori otomatis jika dikirim lewat URL
+            if(targetCat) {
+                document.getElementById('appCategoryText').innerText = targetCat;
+            }
+
             loadAppDetails();
         }
 
@@ -170,6 +178,12 @@
             if (snap.exists()) {
                 const dataProduk = snap.data().dataProduk || {};
                 const dataLogo = snap.data().dataLogo || {};
+                
+                // Jika user langsung akses tanpa link produk, tangkap kategorinya dari Firebase
+                if(!targetCat && snap.data().dataKategori) {
+                   const defaultCat = snap.data().dataKategori[targetApp] || 'Layanan Premium';
+                   document.getElementById('appCategoryText').innerText = defaultCat;
+                }
                 
                 if(dataLogo[targetApp]) document.getElementById('appLogo').src = dataLogo[targetApp];
 
